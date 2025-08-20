@@ -1,68 +1,40 @@
 // Smooth scrolling for navigation links
-document.querySelectorAll('nav a').forEach(anchor => {
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-        
-        if (targetElement) {
-            const offsetTop = targetElement.offsetTop - 80; // Adjust for header height
-            
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
             });
         }
     });
 });
 
-// Intersection Observer for section animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            
-            // Анимация для дочерних элементов с задержкой
-            setTimeout(() => {
-                const children = entry.target.children;
-                for (let i = 0; i < children.length; i++) {
-                    setTimeout(() => {
-                        children[i].classList.add('animate');
-                    }, i * 100);
-                }
-            }, 200);
+// Add scroll animation
+window.addEventListener('scroll', function() {
+    const elements = document.querySelectorAll('.skill-category, .project-card');
+    elements.forEach(element => {
+        const position = element.getBoundingClientRect();
+        if (position.top < window.innerHeight - 100) {
+            element.style.opacity = 1;
+            element.style.transform = 'translateY(0)';
         }
     });
-}, observerOptions);
-
-// Observe all sections
-document.querySelectorAll('section').forEach(section => {
-    observer.observe(section);
 });
 
-// Parallax effect for hero section
-window.addEventListener('scroll', () => {
-    const hero = document.getElementById('hero');
-    const scrolled = window.pageYOffset;
-    const rate = scrolled * -0.5;
-    
-    if (hero) {
-        hero.style.transform = `translateY(${rate}px)`;
-    }
-});
-
-// Add hover effect to project cards
-document.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('mouseenter', () => {
-        card.style.transform = 'translateY(-10px) scale(1.02)';
+// Initialize animations
+document.addEventListener('DOMContentLoaded', function() {
+    const animatedElements = document.querySelectorAll('.skill-category, .project-card');
+    animatedElements.forEach(element => {
+        element.style.opacity = 0;
+        element.style.transform = 'translateY(50px)';
+        element.style.transition = 'all 0.6s ease';
     });
     
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'translateY(0) scale(1)';
-    });
+    // Trigger initial animation
+    setTimeout(() => {
+        window.dispatchEvent(new Event('scroll'));
+    }, 100);
 });
