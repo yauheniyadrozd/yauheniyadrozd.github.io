@@ -42,18 +42,47 @@ document.addEventListener('DOMContentLoaded', function() {
 function sendEmail(event) {
     event.preventDefault();
     
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const message = document.getElementById('message').value;
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    submitBtn.disabled = true;
     
-    const subject = `New Message from ${name} - Portfolio Contact`;
-    const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0AMessage:%0D%0A${message}%0D%0A%0D%0ASent from yauheniyadrozd.github.io`;
+   
+    const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        message: document.getElementById('message').value,
+        to_email: 'edrozd.by@gmail.com' 
+    };
     
-    window.location.href = `mailto:your.email@example.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+   
+    emailjs.send("service_owe8rdg","template_g5l79ei", formData)
+        .then(function(response) {
+            
+            showMessage('✅ Message sent successfully! I will get back to you soon.', 'success');
+            document.getElementById('emailForm').reset();
+            setTimeout(closeEmailForm, 2000);
+        }, function(error) {
+            
+            showMessage('❌ Failed to send message. Please try again or email me directly.', 'error');
+            console.error('EmailJS error:', error);
+        })
+        .finally(() => {
+            
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        });
+}
+
+
+function showMessage(text, type) {
+    const messageDiv = document.getElementById('formMessage');
+    messageDiv.textContent = text;
+    messageDiv.className = `form-message ${type}`;
+    messageDiv.style.display = 'block';
     
+   
     setTimeout(() => {
-        closeEmailForm();
-        // Можно добавить уведомление об успешной отправке
-        alert('Thank you! Your email client should open automatically.');
-    }, 300);
+        messageDiv.style.display = 'none';
+    }, 5000);
 }
