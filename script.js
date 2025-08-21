@@ -38,3 +38,22 @@ document.addEventListener('DOMContentLoaded', function() {
         window.dispatchEvent(new Event('scroll'));
     }, 100);
 });
+
+function sendEmail(event) {
+    event.preventDefault();
+    
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+    
+    const subject = `New Message from ${name} - Portfolio Contact`;
+    const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0AMessage:%0D%0A${message}%0D%0A%0D%0ASent from yauheniyadrozd.github.io`;
+    
+    window.location.href = `mailto:your.email@example.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+    setTimeout(() => {
+        closeEmailForm();
+        // Можно добавить уведомление об успешной отправке
+        alert('Thank you! Your email client should open automatically.');
+    }, 300);
+}

@@ -7,6 +7,47 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <meta name="description" content="Yanheniya Drozd - Data Science & Machine Learning Student. Portfolio featuring AI projects, data analysis, and machine learning expertise.">
+    <meta name="keywords" content="data science, machine learning, AI, python, portfolio, data analysis, machine learning engineer">
+    <meta name="author" content="Yanheniya Drozd">
+    <meta property="og:title" content="Yanheniya Drozd - Data Science Portfolio">
+    <meta property="og:description" content="Data Science & Machine Learning Engineer specializing in AI projects and data analysis">
+    <meta property="og:image" content="https://yauheniyadrozd.github.io/images/my-photo.jpg">
+    <meta property="og:url" content="https://yauheniyadrozd.github.io">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Yanheniya Drozd - Data Science Portfolio">
+    <meta name="twitter:description" content="Data Science & Machine Learning Engineer portfolio">
+    <meta name="twitter:image" content="https://yauheniyadrozd.github.io/images/my-photo.jpg">
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#ec4899">
+
+<!-- Canonical URL -->
+    <link rel="canonical" href="https://yauheniyadrozd.github.io">
+
+<!-- Structured data for SEO -->
+    <script type="application/ld+json">
+    {
+       "@context": "https://schema.org",
+       "@type": "Person",
+       "name": "Yanheniya Drozd",
+       "url": "https://yauheniyadrozd.github.io",
+       "image": "https://yauheniyadrozd.github.io/images/my-photo.jpg",
+       "jobTitle": "Data Science & Machine Learning Engineer",
+       "worksFor": {
+         "@type": "Organization",
+         "name": "PWR University"
+    },
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "Wrocław University of Science and Technology"
+      }
+    }
+    </script>
 </head>
 <body>
     <!-- Navigation -->
@@ -142,34 +183,93 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-content">
-                <p>I'm always open to discussing new opportunities and interesting projects.</p>
-                <div class="contact-links">
-                    <a href="mailto:edrozd.by@gmail.com" class="contact-link">
+  <!-- Contact Section -->
+<section id="contact" class="contact">
+    <div class="container">
+        
+        <div class="contact-content">
+            <p class="contact-description">
+                I'm currently available for freelance projects, internships, and collaboration opportunities. 
+                Whether you have an interesting project in mind or just want to chat about data science - 
+                I'd love to hear from you!
+            </p>
+            
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h3>Get in touch</h3>
+                    <div class="contact-item">
                         <i class="fas fa-envelope"></i>
-                        <span>gmail</span>
-                    </a>
-                    <a href="https://github.com/yauheniyadrozd" class="contact-link">
-                        <i class="fab fa-github"></i>
-                        <span>GitHub</span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/yauheniya-drozd-83411436b/" class="contact-link">
-                        <i class="fab fa-linkedin"></i>
-                        <span>LinkedIn</span>
-                    </a>
+                        <span>edrozd.by@gmail.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Wrocław, Poland</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Response within 24 hours</span>
+                    </div>
+                </div>
+
+                <div class="contact-actions">
+                    <button onclick="openEmailForm()" class="email-btn primary-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Message
+                    </button>
+                    
+                    <div class="social-links">
+                        <a href="https://github.com/yauheniyadrozd" class="social-link" target="_blank" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub</span>
+                        </a>
+                        <a href="https://www.linkedin.com/in/yauheniya-drozd-83411436b/" class="social-link" target="_blank" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                            <span>LinkedIn</span>
+                        </a>
+                        <a href="https://t.me/janedrozd" class="social-link" target="_blank" aria-label="Telegram">
+                            <i class="fab fa-telegram"></i>
+                            <span>Telegram</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+
+    <!-- Email Modal -->
+    <div id="emailModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEmailForm()">&times;</span>
+            <div class="modal-header">
+                <h3><i class="fas fa-envelope"></i> Send me a message</h3>
+                <p>I'll get back to you as soon as possible</p>
+            </div>
+            <form onsubmit="sendEmail(event)" class="email-form">
+                <div class="form-group">
+                    <input type="text" id="name" placeholder=" " required>
+                    <label for="name">Your Name</label>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder=" " required>
+                    <label for="email">Your Email</label>
+                </div>
+                <div class="form-group">
+                    <textarea id="message" placeholder=" " rows="4" required></textarea>
+                    <label for="message">Your Message</label>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i>
+                    Send Message
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 Yauheniya Drozd. Built with passion for data science.</p>
+            <p>&copy; 2025 Yauheniya Drozd. Built with passion for data science.</p>
         </div>
     </footer>
 
