@@ -416,8 +416,19 @@ section {
     font-size: 1.2rem;
     width: 20px;
 }
-
 /* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s ease;
+}
+
 .modal-content {
     background: white;
     margin: 5% auto;
@@ -426,94 +437,65 @@ section {
     width: 90%;
     max-width: 500px;
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-}
-
-.modal-header {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.modal-header h3 {
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
-}
-
-.modal-header p {
-    color: var(--text-light);
-}
-
-.email-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.form-group {
     position: relative;
+    animation: slideIn 0.3s ease;
 }
 
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 1.2rem;
-    border: 2px solid #eee;
-    border-radius: 12px;
-    font-family: inherit;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    background: #fafafa;
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
-    border-color: var(--primary-color);
-    background: white;
-    outline: none;
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
-.form-group label {
+.close {
     position: absolute;
-    left: 1rem;
-    top: 1.2rem;
-    color: var(--text-light);
-    transition: all 0.3s ease;
-    pointer-events: none;
-}
-
-.form-group input:focus + label,
-.form-group textarea:focus + label,
-.form-group input:not(:placeholder-shown) + label,
-.form-group textarea:not(:placeholder-shown) + label {
-    top: -0.8rem;
-    left: 0.8rem;
-    font-size: 0.9rem;
-    color: var(--primary-color);
-    background: white;
-    padding: 0 0.5rem;
-}
-
-.submit-btn {
-    background: var(--gradient);
-    color: white;
-    padding: 1.2rem 2rem;
-    border: none;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: 600;
+    right: 1.5rem;
+    top: 1.5rem;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #aaa;
     cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-top: 1rem;
+    line-height: 1;
 }
 
-.submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(236, 72, 153, 0.3);
+.close:hover {
+    color: var(--primary-color);
 }
 
+/* Form Message Styles */
+.form-message {
+    display: none;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.form-message.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.form-message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.fa-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 /* Responsive */
 @media (max-width: 768px) {
     .contact-wrapper {
@@ -579,6 +561,19 @@ section {
         flex-direction: column;
         align-items: center;
     }
+    
+    /* Модальное окно для мобильных */
+    .modal-content {
+        margin: 10% auto;
+        padding: 2rem;
+        width: 95%;
+        max-width: none;
+    }
+    
+    .contact-wrapper {
+        grid-template-columns: 1fr;
+        padding: 1.5rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -599,33 +594,106 @@ section {
         padding: 10px 20px;
         font-size: 0.9rem;
     }
+    
+    /* Модальное окно для очень маленьких экранов */
+    .modal-content {
+        margin: 5% auto;
+        padding: 1.5rem;
+        border-radius: 15px;
+    }
+    
+    .close {
+        right: 1rem;
+        top: 1rem;
+        font-size: 1.5rem;
+    }
+    
+    /* Сообщения формы */
+    .form-message {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+        margin: 0.8rem 0;
+    }
 }
-.form-message {
-    display: none;
-    padding: 1rem;
-    margin: 1rem 0;
-    border-radius: 8px;
+
+/* Email Form Styles */
+.email-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 1.2rem;
+    border: 2px solid #eee;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #fafafa;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+    background: white;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+}
+
+.form-group label {
+    position: absolute;
+    left: 1rem;
+    top: 1.2rem;
+    color: var(--text-light);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    background: white;
+    padding: 0 0.5rem;
+}
+
+.form-group input:focus + label,
+.form-group textarea:focus + label,
+.form-group input:not(:placeholder-shown) + label,
+.form-group textarea:not(:placeholder-shown) + label {
+    top: -0.8rem;
+    left: 0.8rem;
+    font-size: 0.9rem;
+    color: var(--primary-color);
     font-weight: 500;
 }
 
-.form-message.success {
-    background: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
+.submit-btn {
+    background: var(--gradient);
+    color: white;
+    padding: 1.2rem 2rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    width: 100%;
 }
 
-.form-message.error {
-    background: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
+.submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(236, 72, 153, 0.3);
 }
 
-
-.fa-spinner {
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
 }
