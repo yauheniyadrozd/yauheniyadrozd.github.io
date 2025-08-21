@@ -40,34 +40,67 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// Send email
+// Функции для модального окна
+function openEmailForm() {
+    document.getElementById('emailModal').style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Блокируем прокрутку фона
+}
+
+function closeEmailForm() {
+    document.getElementById('emailModal').style.display = 'none';
+    document.body.style.overflow = 'auto'; // Восстанавливаем прокрутку
+}
+
+// Закрытие при клике вне окна
+window.onclick = function(event) {
+    const modal = document.getElementById('emailModal');
+    if (event.target === modal) {
+        closeEmailForm();
+    }
+}
+
+// Закрытие на Escape
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeEmailForm();
+    }
+});
+
+// Функция отправки email
 function sendEmail(event) {
     event.preventDefault();
     
     const submitBtn = event.target.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
     
-    
-    submitBtn.innerHTML = '<i class="fas fa-spinner"></i> Sending...';
+    // Показываем загрузку
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
     submitBtn.disabled = true;
-    
-    
-    const messageDiv = document.getElementById('formMessage');
-    messageDiv.style.display = 'none';
     
     const formData = {
         name: document.getElementById('name').value,
         email: document.getElementById('email').value,
         message: document.getElementById('message').value,
-        to_email: 'edrozd.by@gmail.com'
+        to_email: 'edrozd.by@gmail.com' // Твой email
     };
     
-    emailjs.send("service_owe8rdg","template_g5l79ei", formData)
+    // Проверяем инициализирован ли EmailJS
+    if (typeof emailjs === 'undefined') {
+        showMessage('❌ Email service not loaded. Please refresh the page.', 'error');
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        return;
+    }
+    
+    emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', formData)
         .then(function(response) {
-            showMessage('✅ Message sent successfully! I will get back to you soon.', 'success');
+            showMessage('✅ Message sent successfully! I will reply within 24 hours.', 'success');
             document.getElementById('emailForm').reset();
-        }, function(error) {
-            showMessage('❌ Failed to send message. Please try again or email me directly.', 'error');
+            setTimeout(closeEmailForm, 2000);
+        })
+        .catch(function(error) {
+            console.error('EmailJS error:', error);
+            showMessage('❌ Failed to send. Please email me directly at edrozd.by@gmail.com', 'error');
         })
         .finally(() => {
             submitBtn.innerHTML = originalText;
@@ -75,14 +108,12 @@ function sendEmail(event) {
         });
 }
 
+// Показ сообщений
 function showMessage(text, type) {
     const messageDiv = document.getElementById('formMessage');
     messageDiv.textContent = text;
     messageDiv.className = `form-message ${type}`;
     messageDiv.style.display = 'block';
-    
-    
-    messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     
     setTimeout(() => {
         messageDiv.style.display = 'none';
