@@ -92,7 +92,7 @@ function sendEmail(event) {
         return;
     }
     
-    emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', formData)
+    emailjs.send('service_owe8rdg', 'template_g5l79ei', formData)
         .then(function(response) {
             showMessage('✅ Message sent successfully! I will reply within 24 hours.', 'success');
             document.getElementById('emailForm').reset();
