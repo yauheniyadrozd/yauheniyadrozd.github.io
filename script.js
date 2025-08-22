@@ -40,45 +40,73 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 function sendEmail(event) {
     event.preventDefault();
+    console.log('=== SEND EMAIL FUNCTION STARTED ===');
     
-    if (!checkEmailJSLoaded()) {
+    // Проверка загрузки EmailJS
+    if (typeof emailjs === 'undefined') {
+        console.error('EmailJS is not defined!');
         showMessage('❌ Email service not loaded. Please refresh the page.', 'error');
         return;
     }
+    console.log('EmailJS is loaded');
     
+    // Находим кнопку
     const submitBtn = event.target.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
+    if (!submitBtn) {
+        console.error('Submit button not found!');
+        return;
+    }
     
+    const originalText = submitBtn.innerHTML;
+    console.log('Button found, original text:', originalText);
+    
+    // Показываем загрузку
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
     submitBtn.disabled = true;
+    console.log('Button disabled and loading shown');
     
+    // Получаем данные формы
     const formData = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        message: document.getElementById('message').value,
+        name: document.getElementById('name')?.value || '',
+        email: document.getElementById('email')?.value || '',
+        message: document.getElementById('message')?.value || '',
         to_email: 'edrozd.by@gmail.com'
     };
     
-    console.log('Sending data:', formData);
+    console.log('Form data:', formData);
     
+    // Проверяем заполненность полей
+    if (!formData.name || !formData.email || !formData.message) {
+        showMessage('❌ Please fill all fields', 'error');
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        return;
+    }
+    
+    // Отправка
+    console.log('Sending with service_owe8rdg, template_g5l79ei');
     emailjs.send('service_owe8rdg', 'template_g5l79ei', formData)
         .then(function(response) {
-            console.log('SUCCESS!', response.status, response.text);
+            console.log('SUCCESS! Status:', response.status, 'Text:', response.text);
             showMessage('✅ Message sent successfully!', 'success');
             document.getElementById('emailForm').reset();
             setTimeout(closeEmailForm, 2000);
         })
         .catch(function(error) {
-            console.error('EmailJS error:', error);
-            let errorMsg = '❌ Error: ';
+            console.error('EMAILJS ERROR:', error);
+            console.log('Error status:', error.status);
+            console.log('Error text:', error.text);
+            
+            let errorMsg = '❌ Send error: ';
             if (error.text) {
                 errorMsg += error.text;
             } else {
-                errorMsg += 'Please try again or contact directly';
+                errorMsg += 'Please try again later';
             }
             showMessage(errorMsg, 'error');
         })
         .finally(() => {
+            console.log('Finally - restoring button');
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
         });
