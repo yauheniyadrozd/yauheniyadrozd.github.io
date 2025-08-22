@@ -8,13 +8,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
-        <script>
-        // EmailJS
-        (function() {
-            emailjs.init("5J996bzuzWF2YMk3i");
-        })();
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+// EmailJS
+(function() {
+    emailjs.init("5J996bzuzWF2YMk3i");
+    console.log('EmailJS initialized');
+})();
+
+// Checking loading
+function checkEmailJSLoaded() {
+    if (typeof emailjs === 'undefined') {
+        console.error('EmailJS not loaded!');
+        return false;
+    }
+    return true;
+}
+</script>
 
     <meta name="description" content="Yanheniya Drozd - Data Science & Machine Learning Student. Portfolio featuring AI projects, data analysis, and machine learning expertise.">
     <meta name="keywords" content="data science, machine learning, AI, python, portfolio, data analysis, machine learning engineer">
