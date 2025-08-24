@@ -185,20 +185,25 @@ section {
 
 /* About Section */
 .about {
-    background: var(--bg-light);
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.7) 0%, rgba(126, 34, 206, 0.7) 100%);
+    color: white;
 }
 
 .about-content {
-    max-width: 800px;
+    max-width: 1000px; /* Увеличили с 800px */
     margin: 0 auto;
     text-align: center;
+    padding: 40px 20px;
 }
 
 .about-content p {
     font-size: 1.1rem;
-    color: var(--text-light);
+    color: rgba(255, 255, 255, 0.9);
     margin-bottom: 1.5rem;
     line-height: 1.8;
+    max-width: 900px; /* Добавили максимальную ширину для текста */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Skills Section */
@@ -308,6 +313,174 @@ section {
 
 .project-link:hover {
     color: var(--secondary-color);
+}
+.education-achievements {
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.7) 0%, rgba(126, 34, 206, 0.7) 100%);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    color: white;
+    margin: 30px 0;
+}
+
+.education-achievements .section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.achievement-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(6px);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.achievement-card:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.achievement-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+    padding: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.achievement-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.achievement-card p {
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+.student-government {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.2rem;
+    margin-top: 1.5rem;
+    border-left: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.student-government h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.student-government p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.link-button {
+    display: inline-block;
+    margin-top: 0.8rem;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.9rem;
+}
+
+.link-button:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    font-size: 0.75rem;
+    margin-left: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.language-list {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.language-list h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.language-list ul {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.language-list li {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .education-achievements {
+        padding: 20px;
+        background: linear-gradient(135deg, rgba(236, 72, 153, 0.75) 0%, rgba(126, 34, 206, 0.75) 100%);
+    }
+    
+    .education-achievements .section-title {
+        font-size: 1.7rem;
+    }
+    
+    .achievements-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
+    
+    .language-list ul {
+        gap: 0.8rem;
+    }
+    
+    .language-list li {
+        font-size: 0.85rem;
+    }
 }
 
 /* Contact Section */
