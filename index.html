@@ -393,10 +393,6 @@
         }
 
         /* Skills Section */
-        .skills {
-            background: var(--lighter);
-        }
-
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -412,11 +408,12 @@
             box-shadow: var(--shadow);
             transition: all 0.3s ease;
             border: 1px solid var(--border);
+            text-align: center;
         }
 
         .skill-category:hover {
             transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
 
         .skill-category h3 {
@@ -426,38 +423,38 @@
             font-weight: 700;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.8rem;
         }
 
-        .skill-category h3::before {
-            content: '';
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            background: var(--gradient);
-            border-radius: 6px;
+        .skill-category h3 i {
+            font-size: 1.8rem;
+            color: #ec4899;
         }
 
         .skill-items {
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
+            justify-content: center;
         }
 
         .skill-item {
-            background: var(--gradient-light);
-            color: white;
+            background: var(--light);
+            color: var(--primary-dark);
             padding: 0.7rem 1.5rem;
             border-radius: 50px;
             font-size: 1rem;
             font-weight: 500;
-            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
             transition: all 0.3s ease;
+            border: 1px solid var(--border);
         }
 
         .skill-item:hover {
+            background: var(--primary);
+            color: white;
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 6px 15px #ec4899;
         }
 
         /* Projects Section */
@@ -1244,13 +1241,13 @@
         </div>
     </section>
 
-    <!-- Skills Section -->
+           <!-- Skills Section -->
     <section id="skills" class="skills">
         <div class="container">
             <h2 class="section-title">Technical Skills</h2>
             <div class="skills-grid">
                 <div class="skill-category fade-in">
-                    <h3>Data Science</h3>
+                    <h3><i class="fas fa-brain"></i> Data Science</h3>
                     <div class="skill-items">
                         <span class="skill-item">Python</span>
                         <span class="skill-item">Pandas</span>
@@ -1260,14 +1257,14 @@
                     </div>
                 </div>
                 <div class="skill-category fade-in">
-                    <h3>Data Visualization</h3>
+                    <h3><i class="fas fa-chart-line"></i> Data Visualization</h3>
                     <div class="skill-items">
                         <span class="skill-item">Matplotlib</span>
                         <span class="skill-item">Seaborn</span>
                     </div>
                 </div>
                 <div class="skill-category fade-in">
-                    <h3>Tools & Technologies</h3>
+                    <h3><i class="fas fa-tools"></i> Tools & Technologies</h3>
                     <div class="skill-items">
                         <span class="skill-item">Git</span>
                         <span class="skill-item">SQL</span>
