@@ -701,6 +701,216 @@
             border-radius: 50px;
             box-shadow: var(--shadow);
         }
+        /* GitLab */
+        .live-projects {
+    background: white;
+    padding-top: 80px;
+    padding-bottom: 100px;
+}
+
+.live-projects-description {
+    max-width: 700px;
+    margin: 0 auto 2.5rem auto;
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--text-light);
+}
+
+.live-projects-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.live-projects-filter {
+    border: 1px solid var(--border);
+    background: var(--lighter);
+    padding: 0.7rem 1.6rem;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.98rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.25s ease;
+    color: var(--text);
+}
+
+.live-projects-filter i {
+    font-size: 1rem;
+}
+
+.live-projects-filter:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(99, 102, 241, 0.15);
+}
+
+.live-projects-filter.active {
+    background: var(--gradient);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.35);
+}
+
+.live-projects-status {
+    text-align: center;
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+}
+
+.live-projects-status i {
+    margin-right: 0.6rem;
+}
+
+.live-projects-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+.live-project-card {
+    background: white;
+    border-radius: 18px;
+    padding: 1.9rem 1.8rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.live-project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background: var(--gradient);
+    opacity: 0.8;
+}
+
+.live-project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+}
+
+.live-project-header {
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.live-project-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--dark);
+    word-break: break-word;
+}
+
+.live-project-badge {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(16, 185, 129, 0.12);
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.live-project-description {
+    font-size: 0.98rem;
+    color: var(--text-light);
+    margin-bottom: 1.2rem;
+    line-height: 1.6;
+}
+
+.live-project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-bottom: 1.4rem;
+}
+
+.live-project-meta-item {
+    font-size: 0.85rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    background: var(--lighter);
+    border: 1px solid var(--border);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--text-light);
+}
+
+.live-project-meta-item i {
+    font-size: 0.9rem;
+}
+
+.live-project-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.live-project-link {
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 999px;
+    background: var(--light);
+    color: var(--primary);
+    transition: all 0.2s ease;
+}
+
+.live-project-link i {
+    font-size: 1.1rem;
+}
+
+.live-project-link:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
+}
+
+.live-project-updated {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .live-projects-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .live-projects-controls {
+        justify-content: center;
+    }
+}
 
         /* Contact Section */
         .contact {
@@ -812,6 +1022,7 @@
             font-size: 1.4rem;
             width: 24px;
         }
+        
 
         /* Modal Styles */
         .modal {
@@ -975,6 +1186,8 @@
             opacity: 0.7;
             cursor: not-allowed;
         }
+
+        
 
         /* Message Styles */
         .form-message {
@@ -1193,7 +1406,7 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
+                <li><a href="#live-projects">GitHub Lab</a></li>
                 <li><a href="#education">Education</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -1215,8 +1428,9 @@
                     <p class="hero-subtitle">Data Science & Machine Learning Student</p>
                     <p class="hero-description">Transforming data into actionable insights through advanced analytics and machine learning. Passionate about solving complex problems with data-driven solutions.</p>
                     <div class="hero-buttons">
-                        <a href="#projects" class="btn btn-primary">
-                            <i class="fas fa-code"></i>View Projects
+                        <a href="#live-projects" class="btn btn-primary">
+                        <i class="fas fa-code"></i>View Projects
+
                         </a>
                         <a href="#contact" class="btn btn-secondary">
                             <i class="fas fa-paper-plane"></i>Get in Touch
@@ -1271,62 +1485,32 @@
             </div>
         </div>
     </section>
+    
+       <!-- Live GitHub Lab -->   
+<section id="live-projects" class="live-projects">
+    <div class="container">
+        <h2 class="section-title">Live GitHub Lab</h2>
+        <p class="live-projects-description fade-in">
+            This section is generated dynamically from my GitHub profile. 
+            Choose a view and explore what I am really building right now.
+        </p>
 
-    <!-- Projects Section -->
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title">Featured Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card fade-in">
-                    <div class="project-content">
-                        <h3>DJIA Time Series Analysis</h3>
-                        <p>Comprehensive analysis of Dow Jones Index using time series decomposition, wavelet transforms, and PCA for financial forecasting and trend analysis.</p>
-                        <div class="project-tech">
-                            <span>Python</span>
-                            <span>Statsmodels</span>
-                            <span>PyWT</span>
-                            <span>PCA</span>
-                        </div>
-                        <a href="https://github.com/yauheniyadrozd/DJIA-Time-Series-Analysis-1896-2025" class="project-link" target="_blank">
-                            <i class="fab fa-github"></i> View Code
-                        </a>
-                    </div>
-                </div>
-
-                <div class="project-card fade-in">
-                    <div class="project-content">
-                        <h3>Route Optimization System</h3>
-                        <p>VRP solver for courier company with time windows and capacity constraints using CPLEX optimization, reducing delivery times by 23%.</p>
-                        <div class="project-tech">
-                            <span>Python</span>
-                            <span>CPLEX</span>
-                            <span>Optimization</span>
-                            <span>Logistics</span>
-                        </div>
-                        <a href="https://github.com/yauheniyadrozd/route-optimization-system" class="project-link" target="_blank">
-                            <i class="fab fa-github"></i> View Code
-                        </a>
-                    </div>
-                </div>
-
-                <div class="project-card fade-in">
-                    <div class="project-content">
-                        <h3>Flappy Bird AI</h3>
-                        <p>AI agent that learns to play Flappy Bird using NEAT neuroevolution algorithm, demonstrating reinforcement learning concepts in game development.</p>
-                        <div class="project-tech">
-                            <span>Python</span>
-                            <span>NEAT</span>
-                            <span>AI</span>
-                            <span>Game Dev</span>
-                        </div>
-                        <a href="https://github.com/yauheniyadrozd/flappy-bird-ai" class="project-link" target="_blank">
-                            <i class="fab fa-github"></i> View Code
-                        </a>
-                    </div>
-                </div>
-            </div>
+        <div class="live-projects-controls fade-in">
+            <button class="live-projects-filter" data-filter="recent">
+                <i class="fas fa-clock"></i> Most Recent
+            </button>
+            <button class="live-projects-filter" data-filter="stars">
+                <i class="fas fa-fire"></i> Most Starred
+            </button>
         </div>
-    </section>
+
+        <div id="liveProjectsStatus" class="live-projects-status fade-in">
+            <i class="fas fa-spinner fa-spin"></i> Loading projects from GitHub…
+        </div>
+
+        <div id="liveProjectsGrid" class="live-projects-grid fade-in"></div>
+    </div>
+</section>
 
     <!-- Education & Achievements Section -->
     <section id="education" class="education-achievements">
@@ -1374,6 +1558,8 @@
                     <li>Polish: C1</li>
                     <li>English: C1</li>
                     <li>Belarusian: Native</li>
+                    <li>Russian: Native</li>
+                    <li>German: A1</li>
                 </ul>
             </div>
         </div>
@@ -1637,6 +1823,152 @@
                 messageEl.style.display = 'none';
             }, 5000);
         }
+        // Live GitHub Lab
+const GITHUB_USER = 'yauheniyadrozd';
+const HIGHLIGHT_REPOS = [
+    'DJIA-Time-Series-Analysis-1896-2025',
+    'route-optimization-system',
+    'flappy-bird-ai',
+    'titanic'
+];
+
+let LIVE_REPOS_CACHE = [];
+let LIVE_PROJECT_CURRENT_FILTER = 'recent';
+
+document.addEventListener('DOMContentLoaded', function () {
+    initLiveProjects();
+});
+
+function initLiveProjects() {
+    const statusEl = document.getElementById('liveProjectsStatus');
+    const gridEl = document.getElementById('liveProjectsGrid');
+
+    if (!statusEl || !gridEl) return;
+
+    const filterButtons = document.querySelectorAll('.live-projects-filter');
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const mode = btn.getAttribute('data-filter');
+            LIVE_PROJECT_CURRENT_FILTER = mode;
+            applyLiveProjectsFilter(mode);
+        });
+    });
+
+    fetchGitHubRepos();
+}
+
+async function fetchGitHubRepos() {
+    const statusEl = document.getElementById('liveProjectsStatus');
+    const gridEl = document.getElementById('liveProjectsGrid');
+
+    if (!statusEl || !gridEl) return;
+
+    statusEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading projects from GitHub…';
+    statusEl.style.display = 'block';
+    gridEl.innerHTML = '';
+
+    try {
+        const response = await fetch(`https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated`);
+        if (!response.ok) {
+            throw new Error('GitHub API error: ' + response.status);
+        }
+        const data = await response.json();
+        // Без форков, только свои репозитории
+        LIVE_REPOS_CACHE = data.filter(repo => !repo.fork);
+
+        if (LIVE_REPOS_CACHE.length === 0) {
+            statusEl.textContent = 'No public repositories found.';
+            return;
+        }
+
+        statusEl.style.display = 'none';
+        applyLiveProjectsFilter(LIVE_PROJECT_CURRENT_FILTER);
+    } catch (err) {
+        console.error('GitHub fetch error:', err);
+        statusEl.innerHTML = '❌ Could not load projects from GitHub. Please try again later.';
+    }
+}
+
+function applyLiveProjectsFilter(mode) {
+    const gridEl = document.getElementById('liveProjectsGrid');
+    const statusEl = document.getElementById('liveProjectsStatus');
+    if (!gridEl) return;
+
+    if (!LIVE_REPOS_CACHE || LIVE_REPOS_CACHE.length === 0) {
+        if (statusEl) statusEl.style.display = 'block';
+        return;
+    }
+
+    let repos = [...LIVE_REPOS_CACHE];
+
+    if (mode === 'recent') {
+        repos.sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at));
+    } else if (mode === 'stars') {
+        repos.sort((a, b) => b.stargazers_count - a.stargazers_count);
+    }
+
+    // maks 6 kart
+    renderLiveProjects(repos.slice(0, 6));
+}
+
+function renderLiveProjects(repos) {
+    const gridEl = document.getElementById('liveProjectsGrid');
+    if (!gridEl) return;
+
+    gridEl.innerHTML = '';
+
+    repos.forEach(repo => {
+        const card = document.createElement('article');
+        card.className = 'live-project-card';
+
+        const isHighlighted = HIGHLIGHT_REPOS.includes(repo.name);
+
+        const description = repo.description || 'No description provided – pure experimental sandbox.';
+
+        const language = repo.language ? repo.language : 'Mixed';
+        const stars = repo.stargazers_count || 0;
+        const updated = repo.pushed_at ? new Date(repo.pushed_at) : null;
+
+        const updatedText = updated
+            ? `Updated ${updated.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}`
+            : 'Updated recently';
+
+        const repoUrl = repo.html_url;
+        const shortName = repo.name.replace(/-/g, ' ');
+
+        card.innerHTML = `
+            <div>
+                <div class="live-project-header">
+                    <span class="live-project-name">${shortName}</span>
+                    ${isHighlighted ? '<span class="live-project-badge">Highlighted</span>' : ''}
+                </div>
+                <p class="live-project-description">${description}</p>
+                <div class="live-project-meta">
+                    <span class="live-project-meta-item">
+                        <i class="fas fa-code"></i>${language}
+                    </span>
+                    <span class="live-project-meta-item">
+                        <i class="fas fa-star"></i>${stars} stars
+                    </span>
+                    <span class="live-project-meta-item">
+                        <i class="fas fa-database"></i>${repo.size} KB
+                    </span>
+                </div>
+            </div>
+            <div class="live-project-footer">
+                <a href="${repoUrl}" class="live-project-link" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-github"></i> Open on GitHub
+                </a>
+                <span class="live-project-updated">${updatedText}</span>
+            </div>
+        `;
+
+        gridEl.appendChild(card);
+    });
+}
+
     </script>
 </body>
 </html>
