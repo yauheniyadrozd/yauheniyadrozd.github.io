@@ -163,6 +163,66 @@ body.lang-ru .nav-menu {
     font-family: 'Inter', 'Segoe UI', 'Segoe UI Emoji', system-ui, -apple-system, 'Noto Color Emoji', sans-serif;
 }
 
+/* Custom language switcher styles */
+.lang-switch-custom {
+    position: relative;
+    display: inline-block;
+}
+
+.lang-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--text);
+    box-shadow: 0 4px 12px rgba(16,24,40,0.06);
+}
+
+.lang-btn .lang-flag {
+    font-size: 18px;
+}
+
+.lang-btn .lang-label {
+    font-size: 0.95rem;
+}
+
+.lang-menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 10px);
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 6px;
+    min-width: 160px;
+    box-shadow: var(--shadow-lg);
+    list-style: none;
+    display: none;
+    z-index: 1500;
+}
+
+.lang-menu.open { display: block; }
+
+.lang-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.lang-item:hover { background: var(--lighter); }
+.lang-item.active { background: var(--primary); color: white; }
+.lang-item .lang-flag { font-size: 18px; }
+.lang-item .lang-name { font-weight: 700; }
+
 /* Hero Section */
 .hero {
     padding: 140px 0 100px;
