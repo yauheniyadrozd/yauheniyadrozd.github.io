@@ -59,6 +59,8 @@ body {
     margin: 0 auto;
     padding: 1rem 20px;
     display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
     justify-content: space-between;
     align-items: center;
     transition: all 0.3s ease;
@@ -88,7 +90,14 @@ body {
 .nav-menu {
     display: flex;
     list-style: none;
-    gap: 2.5rem;
+    gap: 1.25rem;
+    flex: 1 1 auto;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.nav-menu li {
+    list-style: none;
 }
 
 .nav-menu a {
@@ -126,6 +135,32 @@ body {
     font-size: 1.5rem;
     color: var(--dark);
     cursor: pointer;
+}
+
+.lang-switch select,
+#langSelect {
+    min-width: 92px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: white;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* Language-specific nav adjustments for longer labels */
+body.lang-ru .nav-menu a,
+body.lang-pl .nav-menu a {
+    font-size: 0.95rem;
+}
+
+body.lang-ru .nav-menu {
+    gap: 1rem;
+}
+
+/* Improve select emoji rendering */
+#langSelect {
+    font-family: 'Inter', 'Segoe UI', 'Segoe UI Emoji', system-ui, -apple-system, 'Noto Color Emoji', sans-serif;
 }
 
 /* Hero Section */
