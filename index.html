@@ -448,8 +448,8 @@
                 return;
             }
             
-            // Send email
-            emailjs.send(EMAILJS_PUBLIC_KEY, EMAILJS_TEMPLATE_ID, formData)
+            // Send email using values from CONFIG
+            emailjs.send(CONFIG.EMAILJS_SERVICE_ID, CONFIG.EMAILJS_TEMPLATE_ID, formData)
                 .then(function(response) {
                     console.log('SUCCESS! Status:', response.status, 'Text:', response.text);
                     showMessage(typeof I18N !== 'undefined' ? I18N.t('modal_messages.sent_success') : '✅ Message sent successfully! I will get back to you soon.', 'success');
