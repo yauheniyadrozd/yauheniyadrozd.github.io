@@ -26,7 +26,7 @@
       justify-content: center;
       align-items: center;
       color: white;
-      background-image: url('flocus.backgrounds/1.jpg');
+      background-image: url('focus.backgrounds/1.jpg');
       background-size: cover;
       background-position: center;
       transition: background-image 0.8s ease-in-out;
@@ -218,14 +218,12 @@
 <body>
 <div id="study-space-wrapper">
 
-  <!-- STEP 1: NAME -->
   <div class="glass-panel main-card name-input-container" id="nameStep">
     <h2>Welcome to your study space.</h2>
     <input type="text" id="nameInput" placeholder="What's your name?" autocomplete="off" />
     <button class="start-btn" id="startBtn">Let's Focus</button>
   </div>
 
-  <!-- STEP 2: MAIN -->
   <div class="glass-panel main-card hidden" id="mainStep">
     <div class="greeting" id="greetingArea">Hello.</div>
     <div class="quote">"Focus on being productive instead of busy."</div>
@@ -252,7 +250,6 @@
     </div>
   </div>
 
-  <!-- MUSIC PANEL (NO AUTOPLAY) -->
   <div class="glass-panel music-panel" id="musicPanel" style="padding: 0; overflow: hidden; height: 80px; display: flex; align-items: center;">
     <div id="musicInner" style="width: 100%; height: 80px; display: flex; align-items: center; justify-content: center; padding: 10px; gap: 10px;">
       <button class="glass-btn" id="musicPlayBtn">▶ Play</button>
@@ -261,7 +258,6 @@
     </div>
   </div>
 
-  <!-- BOTTOM CONTROLS -->
   <div class="bottom-controls">
     <div class="btn-group">
       <button class="glass-btn" id="backBtn">← Back</button>
@@ -274,12 +270,11 @@
     </div>
   </div>
 
-  <!-- SIGNATURE -->
   <div class="footer-sign">yauheniyadrozd/site</div>
 
 </div>
 
-  <script>
+<script>
     // --- BACKGROUNDS ---
     const backgrounds = [
       'focus.backgrounds/1.jpg',
@@ -288,11 +283,11 @@
       'focus.backgrounds/4.jpg',
       'focus.backgrounds/5.jpg',
     ];
-    let bgIndex = 0;
 
     // --- STATE ---
     let userName = "Student";
     let currentMode = "clock";
+    let bgIndex = 0; 
 
     let clockIntervalId = null;
     let timerIntervalId = null;
@@ -330,7 +325,7 @@
     const musicPlayBtn = document.getElementById("musicPlayBtn");
     const musicStopBtn = document.getElementById("musicStopBtn");
 
-    const YT_SRC = "https://www.youtube.com/embed/2xwz0Yc8nHg?controls=0&modestbranding=1&rel=0";
+    const YT_SRC = "https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&controls=0&modestbranding=1";
 
     const wrapper = document.getElementById("study-space-wrapper");
 
@@ -347,7 +342,7 @@
     }
 
     function goBack() {
-      // navigate to index.html
+      // ИЗМЕНЕНИЕ: Теперь переходим на index.html
       window.location.href = 'index.html';
     }
 
@@ -358,14 +353,8 @@
       clockIntervalId = setInterval(updateClock, 1000);
     }
 
-    function stopClockLoop() {
-      if (clockIntervalId) clearInterval(clockIntervalId);
-      clockIntervalId = null;
-    }
-
     function updateClock() {
       const now = new Date();
-
       const hour = now.getHours();
       let timeGreeting = "Hello";
       if (hour < 12) timeGreeting = "Good morning";
@@ -389,9 +378,7 @@
     }
 
     function setDuration(minutes, btn) {
-      // stop current timer (no reset of selectedDuration yet)
       stopTimer(true);
-
       selectedDuration = minutes;
       timeLeft = minutes * 60;
       mainDisplay.textContent = formatTime(timeLeft);
@@ -410,12 +397,10 @@
         presetsBlock.classList.add("hidden");
         timerControls.classList.add("hidden");
 
-        // if timer was running, pause it (не сбрасываем время)
         if (isTimerRunning) {
           stopTimer(false);
           timerStartBtn.textContent = "Resume";
         }
-
         updateClock();
       } else {
         modeClockBtn.classList.remove("active-mode");
@@ -432,12 +417,11 @@
       if (timeLeft > 0) {
         timeLeft--;
         mainDisplay.textContent = formatTime(timeLeft);
-        return;
+      } else {
+        stopTimer(false);
+        alert("Session finished!");
+        resetTimer();
       }
-      // finish
-      stopTimer(false);
-      alert("Session finished!");
-      resetTimer();
     }
 
     function startTimer() {
@@ -456,7 +440,6 @@
 
     function toggleTimer() {
       if (currentMode !== "timer") return;
-
       if (isTimerRunning) {
         stopTimer(false);
         timerStartBtn.textContent = "Resume";
@@ -486,43 +469,29 @@
       }
     }
 
-    // --- MUSIC (NO AUTOPLAY) ---
-    function showMusicPanel() {
-      musicPanel.classList.add("show");
-    }
-
-    function hideMusicPanel() {
-      musicPanel.classList.remove("show");
-    }
-
+    // --- MUSIC ---
     function toggleMusicPanel() {
       musicPanel.classList.toggle("show");
     }
 
     function playMusic() {
-      // if iframe already exists, do nothing
       if (musicInner.querySelector("iframe")) return;
 
-      // create iframe on demand (user interaction -> autoplay allowed)
       const iframe = document.createElement("iframe");
       iframe.width = "100%";
       iframe.height = "80";
       iframe.src = YT_SRC;
-      iframe.title = "Barbie Theme Piano";
+      iframe.title = "Music";
       iframe.frameBorder = "0";
-      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-      iframe.allowFullscreen = true;
+      iframe.allow = "autoplay; encrypted-media;";
       iframe.style.borderRadius = "12px";
       iframe.style.display = "block";
       iframe.style.marginTop = "-5px";
 
-      // replace inner controls with iframe
       musicInner.innerHTML = "";
       musicInner.style.padding = "0";
       musicInner.appendChild(iframe);
 
-      // show stop button state in panel header area not available now,
-      // so we add a floating stop button inside panel
       const stopBtn = document.createElement("button");
       stopBtn.className = "glass-btn";
       stopBtn.textContent = "⏹ Stop";
@@ -538,26 +507,20 @@
     }
 
     function stopMusic() {
-      // remove iframe
       const iframe = musicInner.querySelector("iframe");
       if (iframe) iframe.remove();
 
-      // remove floating stop buttons (if any)
       [...musicPanel.querySelectorAll("button.glass-btn")]
         .filter(b => b.textContent.includes("Stop") || b.textContent.includes("⏹"))
         .forEach(b => b.remove());
 
-      // restore default controls
       musicInner.style.padding = "10px";
       musicInner.innerHTML = `
         <button class="glass-btn" id="musicPlayBtn">▶ Play</button>
         <button class="glass-btn hidden" id="musicStopBtn">⏹ Stop</button>
         <div style="opacity:0.75; font-size:0.9rem;">ADHD Relief Music</div>
       `;
-
-      // re-bind restored play button
-      const restoredPlay = document.getElementById("musicPlayBtn");
-      restoredPlay.addEventListener("click", playMusic);
+      document.getElementById("musicPlayBtn").addEventListener("click", playMusic);
     }
 
     // --- EVENTS ---
@@ -581,8 +544,6 @@
     fsBtn.addEventListener("click", toggleFullScreen);
 
     musicToggleBtn.addEventListener("click", toggleMusicPanel);
-
-    // Play/Stop in initial panel controls
     musicPlayBtn.addEventListener("click", playMusic);
     musicStopBtn.addEventListener("click", stopMusic);
 
@@ -590,8 +551,7 @@
       if (e.key === "Enter") goToMain();
     });
 
-    // initial focus
     nameInput.focus();
-  </script>
+</script>
 </body>
 </html>
