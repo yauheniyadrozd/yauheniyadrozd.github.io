@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Study Space</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS СТИЛИ --- */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --primary-color: white;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--primary-color);
+            background-image: url('flocus.backgrounds/1.jpg');
+            background-size: cover;
+            background-position: center;
+            transition: background-image 0.8s ease-in-out;
+            overflow: hidden;
+        }
+
+        body::after {
+            content: ''; position: absolute; inset: 0;
+            background: rgba(0, 0, 0, 0.3); z-index: -1;
+        }
+
+        /* --- СТЕКЛО --- */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        /* --- ЦЕНТРАЛЬНЫЙ БЛОК --- */
+        .main-card {
+            padding: 3rem 4rem; 
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden { display: none !important; }
+
+        /* --- ВВОД ИМЕНИ --- */
+        .name-input-container h2 { font-weight: 300; margin-bottom: 1.5rem; }
+        
+        input[type="text"] {
+            background: rgba(255,255,255,0.15); border: none; padding: 15px 20px;
+            border-radius: 12px; color: white; font-size: 1.2rem; text-align: center;
+            width: 100%; margin-bottom: 1.5rem; outline: none; transition: 0.3s;
+        }
+        input[type="text"]:focus { background: rgba(255,255,255,0.25); }
+        input::placeholder { color: rgba(255,255,255,0.5); }
+
+        .start-btn {
+            background: white; color: #333; font-weight: 700; padding: 12px 30px;
+            border-radius: 50px; border: none; cursor: pointer; font-size: 1rem; transition: 0.3s;
+        }
+        .start-btn:hover { transform: scale(1.05); }
+
+        /* --- ЧАСЫ И ТАЙМЕР --- */
+        .greeting { font-size: 1.5rem; font-weight: 400; margin-bottom: 0.5rem; opacity: 0.9; }
+        .quote { font-size: 0.9rem; font-style: italic; opacity: 0.7; margin-bottom: 1.5rem; }
+        
+        .clock-display {
+            font-size: 6rem; font-weight: 800; line-height: 1; margin-bottom: 1.5rem;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-variant-numeric: tabular-nums; 
+        }
+
+        .controls-container { display: flex; flex-direction: column; gap: 15px; align-items: center; }
+        .btn-group { display: flex; gap: 10px; }
+        
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white; padding: 10px 20px; border-radius: 50px; cursor: pointer;
+            font-family: 'Inter', sans-serif; font-weight: 500; transition: 0.3s;
+        }
+        .glass-btn:hover { background: rgba(255, 255, 255, 0.3); }
+        .active-mode { background: white; color: black; font-weight: 700; }
+
+        /* --- КНОПКИ ПРЕСЕТОВ (25, 30, 45, 60) --- */
+        .presets-group {
+            display: flex; gap: 8px; margin-bottom: 5px;
+        }
+        
+        .preset-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            width: 40px; height: 40px;
+            border-radius: 50%; /* Круглые кнопки */
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .preset-btn:hover { background: rgba(255, 255, 255, 0.25); color: white; }
+        
+        /* Стиль для выбранного времени */
+        .preset-btn.active-preset {
+            background: white; color: black; border-color: white; transform: scale(1.1);
+        }
+
+
+        /* --- НИЖНИЕ КНОПКИ --- */
+        .bottom-controls {
+            position: absolute; bottom: 30px; width: 100%; padding: 0 40px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        
+        .music-panel {
+            position: absolute; bottom: 80px; left: 40px; padding: 10px;
+            width: 320px; opacity: 0; pointer-events: none;
+            transform: translateY(20px); transition: all 0.4s ease; z-index: 100;
+        }
+        .music-panel.show { opacity: 1; pointer-events: all; transform: translateY(0); }
+
+    </style>
+</head>
+<body>
+
+    <div class="glass-panel main-card name-input-container" id="nameStep">
+        <h2>Welcome to your study space.</h2>
+        <input type="text" id="nameInput" placeholder="What's your name?" autocomplete="off">
+        <button class="start-btn" onclick="startExperience()">Let's Focus</button>
+    </div>
+
+    <div class="glass-panel main-card hidden" id="mainStep">
+        <div class="greeting" id="greetingArea">Hello.</div>
+        <div class="quote">"Focus on being productive instead of busy."</div>
+
+        <div class="clock-display" id="mainDisplay">00:00</div>
+
+        <div class="controls-container">
+            <div class="btn-group">
+                <button class="glass-btn active-mode" onclick="setMode('clock')" id="modeClockBtn">Clock 🕒</button>
+                <button class="glass-btn" onclick="setMode('timer')" id="modeTimerBtn">Pomodoro 🍅</button>
+            </div>
+
+            <div class="presets-group hidden" id="presetsBlock">
+                <button class="preset-btn active-preset" onclick="setDuration(25, this)">25</button>
+                <button class="preset-btn" onclick="setDuration(30, this)">30</button>
+                <button class="preset-btn" onclick="setDuration(45, this)">45</button>
+                <button class="preset-btn" onclick="setDuration(60, this)">60</button>
+            </div>
+            
+            <div class="btn-group hidden" id="timerControls">
+                <button class="glass-btn" onclick="toggleTimer()" id="timerStartBtn">Start</button>
+                <button class="glass-btn" onclick="resetTimer()">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="glass-panel music-panel" id="spotifyPanel" style="padding: 0; overflow: hidden; height: 80px; display: flex; align-items: center;">
+        <iframe 
+            width="100%" 
+            height="80" 
+            src="https://www.youtube.com/embed/uk-DSogtQRo?autoplay=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3" 
+            title="ADHD Relief Music" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen
+            style="border-radius: 12px; display: block; margin-top: -5px;"> 
+        </iframe>
+    </div>
+
+    <div class="bottom-controls">
+        <button class="glass-btn" onclick="toggleMusic()">🎵 Music</button>
+        <div>
+            <button class="glass-btn" onclick="changeBackground()" style="margin-right: 10px;">Change Vibe ✨</button>
+            <button class="glass-btn" onclick="toggleFullScreen()">⛶ Full Screen</button>
+        </div>
+    </div>
+
+
+    <script>
+        /* --- JS LOGIC --- */
+        const backgrounds = [
+    'flocus.backgrounds/1.jpg',
+    'flocus.backgrounds/2.jpg',
+    'flocus.backgrounds/3.jpg',
+    'flocus.backgrounds/4.jpg',
+    'flocus.backgrounds/5.jpg',
+        ];
+
+
+        let userName = "Student";
+        let currentMode = 'clock';
+        let timerInterval;
+        
+        let selectedDuration = 25; // Выбранная длительность (по умолчанию 25)
+        let timeLeft = 25 * 60; 
+        let isTimerRunning = false;
+
+        // Elements
+        const nameStep = document.getElementById('nameStep');
+        const mainStep = document.getElementById('mainStep');
+        const nameInput = document.getElementById('nameInput');
+        const greetingArea = document.getElementById('greetingArea');
+        const mainDisplay = document.getElementById('mainDisplay');
+        
+        const timerControls = document.getElementById('timerControls');
+        const presetsBlock = document.getElementById('presetsBlock'); // Блок с цифрами
+        
+        const modeClockBtn = document.getElementById('modeClockBtn');
+        const modeTimerBtn = document.getElementById('modeTimerBtn');
+        const timerStartBtn = document.getElementById('timerStartBtn');
+        const spotifyPanel = document.getElementById('spotifyPanel');
+
+        // 1. Start
+        function startExperience() {
+            const name = nameInput.value.trim();
+            if (name) userName = name;
+            nameStep.classList.add('hidden');
+            mainStep.classList.remove('hidden');
+            updateClock();
+            setInterval(updateClock, 1000);
+        }
+
+        // 2. Clock Logic
+        function updateClock() {
+            const now = new Date();
+            // Greeting update
+            const hour = now.getHours();
+            let timeGreeting = "Hello";
+            if(hour < 12) timeGreeting = "Good morning";
+            else if(hour < 18) timeGreeting = "Good afternoon";
+            else timeGreeting = "Good evening";
+            greetingArea.textContent = `${timeGreeting}, ${userName}.`;
+
+            // If in clock mode, update numbers
+            if (currentMode === 'clock') {
+                const h = String(now.getHours()).padStart(2, '0');
+                const m = String(now.getMinutes()).padStart(2, '0');
+                mainDisplay.textContent = `${h}:${m}`;
+            }
+        }
+
+        // 3. Timer Logic
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = seconds % 60;
+            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        // Новая функция: Выбор длительности (25, 30, 45, 60)
+        function setDuration(minutes, btnElement) {
+            // Сбрасываем текущий таймер, если он шел
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            timerStartBtn.textContent = "Start";
+
+            // Обновляем переменные
+            selectedDuration = minutes;
+            timeLeft = minutes * 60;
+            mainDisplay.textContent = formatTime(timeLeft);
+
+            // Визуальное выделение кнопки (удаляем active у всех, добавляем нажатой)
+            const allPresets = document.querySelectorAll('.preset-btn');
+            allPresets.forEach(btn => btn.classList.remove('active-preset'));
+            btnElement.classList.add('active-preset');
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            if (mode === 'clock') {
+                modeClockBtn.classList.add('active-mode');
+                modeTimerBtn.classList.remove('active-mode');
+                
+                // Скрываем элементы таймера
+                timerControls.classList.add('hidden');
+                presetsBlock.classList.add('hidden');
+                
+                updateClock();
+            } else {
+                modeClockBtn.classList.remove('active-mode');
+                modeTimerBtn.classList.add('active-mode');
+                
+                // Показываем элементы таймера
+                timerControls.classList.remove('hidden');
+                presetsBlock.classList.remove('hidden'); // Показываем кнопки 25/30/45/60
+                
+                mainDisplay.textContent = formatTime(timeLeft);
+            }
+        }
+
+        function toggleTimer() {
+            if (isTimerRunning) {
+                clearInterval(timerInterval);
+                isTimerRunning = false;
+                timerStartBtn.textContent = "Resume";
+            } else {
+                isTimerRunning = true;
+                timerStartBtn.textContent = "Pause";
+                timerInterval = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        mainDisplay.textContent = formatTime(timeLeft);
+                    } else {
+                        clearInterval(timerInterval);
+                        isTimerRunning = false;
+                        alert("Session finished!");
+                        resetTimer();
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            // Возвращаем время к последнему выбранному пресету (а не всегда к 25)
+            timeLeft = selectedDuration * 60; 
+            mainDisplay.textContent = formatTime(timeLeft);
+            timerStartBtn.textContent = "Start";
+        }
+
+        // 4. Utils
+        let bgIndex = 0;
+        function changeBackground() {
+            bgIndex = (bgIndex + 1) % backgrounds.length;
+            document.body.style.backgroundImage = `url('${backgrounds[bgIndex]}')`;
+        }
+
+        function toggleMusic() {
+            spotifyPanel.classList.toggle('show');
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        nameInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') startExperience();
+        });
+
+    </script>
+</body>
+</html>
