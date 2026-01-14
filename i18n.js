@@ -128,13 +128,99 @@ const I18N = {
             "hero.subtitle": "Studentka Data Science i Machine Learning",
             "hero.description": "Przekształcam dane w praktyczne wnioski poprzez zaawansowaną analitykę i uczenie maszynowe. Pasjonuję się rozwiązywaniem złożonych problemów za pomocą rozwiązań opartych na danych.",
 
+            // Buttons
+            "buttons.viewProjects": "<i class=\"fas fa-code\"></i> Zobacz projekty",
+            "buttons.getInTouch": "<i class=\"fas fa-paper-plane\"></i> Skontaktuj się ze mną",
+
             // About section
             "about.title": "O mnie",
             "about.p1": "Jestem pasjonatką studentką Data Science i inżynierii systemów z doświadczeniem w uczeniu maszynowym, analizie danych i algorytmach optymalizacji. Specjalizuję się w przekształcaniu złożonych danych w znaczące rozwiązania, które napędzają podejmowanie decyzji i tworzą wartość.",
             "about.p2": "Moje umiejętności techniczne obejmują programowanie w Pythonie, analizę statystyczną i tworzenie kompleksowych potoków uczenia maszynowego. Lubię rozwiązywać wyzwania i ciągle uczyć się nowych technologii w dziedzinie data science.",
 
+            // Skills section
+            "skills.title": "Umiejętności techniczne",
+            "skills.categories.data_science": "Data Science",
+            "skills.categories.data_viz": "Wizualizacja danych",
+            "skills.categories.tools": "Narzędzia i technologie",
+            "skills.items.python": "Python",
+            "skills.items.pandas": "Pandas",
+            "skills.items.numpy": "NumPy",
+            "skills.items.scikit": "Scikit-learn",
+            "skills.items.tf": "TensorFlow",
+            "skills.items.matplotlib": "Matplotlib",
+            "skills.items.seaborn": "Seaborn",
+            "skills.items.git": "Git",
+            "skills.items.sql": "SQL",
+            "skills.items.jupyter": "Jupyter",
+
+            // Live projects
+            "live.title": "Aktywne Laboratorium GitHub",
+            "live.description": "Ta sekcja jest generowana dynamicznie z mojego profilu GitHub. Wybierz widok i odkryj, nad czym pracuję teraz.",
+            "live.controls.recent": "Najnowsze",
+            "live.controls.stars": "Najczęściej oznaczane gwiazdką",
+            "live.loading": "Wczytywanie projektów z GitHub…",
+            "live.no_repos": "Nie znaleziono publicznych repozytoriów.",
+            "live.error": "❌ Nie można załadować projektów z GitHub. Spróbuj ponownie później.",
+            "live.no_description": "Brak opisu – czysty eksperymentalny sandbox.",
+            "live.updated": "Zaktualizowano",
+            "live.updated_recently": "Zaktualizowano niedawno",
+            "live.highlighted": "Wyróżnione",
+            "live.open_on_github": "Otwórz na GitHub",
+
+            // Education
+            "education.title": "Edukacja i osiągnięcia",
+            "achievements.uni": "Politechnika Wrocławska",
+            "achievements.uni_desc": "Obecnie studiuję Inżynierię Systemów i Data Engineering na jednej z najbardziej prestiżowych politechnik w Polsce (2023-2027), zdobywając wysokiej jakości edukację w środowisku międzynarodowym i rozwijając zarówno umiejętności techniczne, jak i zawodowe.",
+            "achievements.nawa": "Stypendium NAWA",
+            "achievements.nawa_desc": "Otrzymałam stypendium od Narodowej Agencji Wymiany Akademickiej (NAWA) za wybitne osiągnięcia akademickie i wkład w rozwój współpracy międzynarodowej.",
+            "achievements.skills_for_work": "Skills for Work przez Santander i Coursera",
+            "achievements.skills_for_work_desc": "Zostałam wybrana do programu \"Skills for Work\" organizowanego przez Bank Santander i platformę Coursera, rozwijając moje umiejętności zawodowe poprzez specjalistyczne kursy.",
+            "badge.selected": "Wybrana",
+            "student_government.title": "Samorząd Studentów – Komisja Sportu i Turystyki",
+            "student_government.desc": "Jestem aktywną członkinią Samorządu Politechniki Wrocławskiej, szczególnie w Komisji Sportu i Turystyki, gdzie pomagam w organizacji eventów i promowaniu aktywnego trybu życia wśród studentów.",
+            "student_government.link": "Odwiedź stronę Samorządu",
+            "language.title": "Umiejętności językowe",
+
+            // Contact
+            "contact.title": "Skontaktuj się ze mną",
+            "contact.description": "Jestem dostępna do projektów freelance, staży i współpracy. Niezależnie od tego, czy masz ciekawy projekt w głowie, czy chcesz porozmawiać o data science - chętnie się odzezwę!",
+            "contact.getInTouch": "Skontaktuj się",
+            "contact.email_label": "edrozd.by@gmail.com",
+            "contact.location": "Wrocław, Polska",
+            "contact.response": "Odpowiedź w ciągu 24 godzin",
+
+            // Modal
+            "modal.title": "Wyślij mi wiadomość",
+            "modal.subtitle": "Odpowiem tak szybko jak to możliwe",
+            "modal.name": "Twoje imię",
+            "modal.email": "Twój email",
+            "modal.message": "Twoja wiadomość",
+            "modal.submit": "Wyślij wiadomość",
+            "modal_messages.sending": "Wysyłanie...",
+            "modal_messages.sent_success": "✅ Wiadomość wysłana pomyślnie! Wkrótce się odzezwę.",
+            "modal_messages.service_error": "❌ Usługa email nie załadowana. Proszę odświeżyć stronę.",
+            "modal_messages.fill_fields": "❌ Proszę wypełnić wszystkie pola",
+            "modal_messages.send_error_prefix": "❌ Błąd wysyłania: ",
+            "modal_messages.try_later": "Spróbuj ponownie później",
+
             // Footer
-            "footer.copy": "© 2025 Yauheniya Drozd. Stworzone z pasją do data science."
+            "footer.copy": "© 2025 Yauheniya Drozd. Stworzone z pasją do data science.",
+
+            // Math page
+            "math.title": "Pomoc z matematyką i zadania",
+            "math.welcome": "Witaj — ta strona zawiera pomoc matematyczną, dyżury i zadania dla moich studentów. Znajdź poniżej zasoby, opisy zadań i instrukcje dotyczące wysyłania.",
+            "math.upcoming": "Nadchodzące zadanie — Algebra liniowa: Wartości własne",
+            "math.due": "Termin: <strong>2026-01-10</strong>",
+            "math.list1": "Oblicz wartości własne i wektory własne dla podanych macierzy.",
+            "math.list2": "Napisz krótki raport (PDF) z wynikami i interpretacją.",
+            "math.list3": "Wyślij e-mailem na adres <a href=\"mailto:edrozd.by@gmail.com\">edrozd.by@gmail.com</a> lub wypchnij do repozytorium GitHub i udostępnij link.",
+            "math.download": "Pobierz PDF zadania",
+            "math.resources": "Zasoby",
+            "math.resources_khan": "Khan Academy — Algebra liniowa",
+            "math.resources_numpy": "Dokumentacja NumPy (przydatna do obliczeń)",
+            "math.office": "Dyżury",
+            "math.office_text": "Wtorki 17:00–18:30 CET — dołącz przez Telegram lub wyślij mi e-mail, aby uzyskać link do spotkania.",
+            "math.contact": "Kontakt i wysyłanie"
         }
     },
 
