@@ -61,11 +61,16 @@
             <ul class="nav-menu">
                 <li><a href="focus.html" target="_blank">Study Space <i class="fas fa-clock"></i></a></li>
                 <li><a href="math.html" target="_blank">Math </a></li>
+                <li><a href="physics.html" target="_blank">PhysLab </a></li>
                 <li><a href="#live-projects" data-i18n="nav.live">GitHub Lab</a></li>
                 <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
             </ul>
             <div class="lang-switch" style="margin-left:12px;">
-                <select id="langSelect" aria-label="Language selector" title="Language"></select>
+                <div id="lang-switcher">
+                    <button class="lang-btn" onclick="setLang('ru')">RU</button>
+                    <button class="lang-btn" onclick="setLang('pl')">PL</button>
+                    <button class="lang-btn" onclick="setLang('en')">EN</button>
+                </div>
             </div>
             <button class="mobile-menu-btn" id="mobileMenuBtn">
                 <i class="fas fa-bars"></i>
@@ -304,6 +309,25 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="config.js"></script>
     <script src="i18n.js"></script>
+    <script>
+        function setLang(l){
+            if(typeof I18N !== 'undefined'){
+                I18N.setLanguage(l);
+            } else {
+                localStorage.setItem('selectedLanguage', l);
+                document.documentElement.lang = l;
+            }
+            document.querySelectorAll('#lang-switcher .lang-btn').forEach(b=>{
+                b.classList.toggle('active', b.textContent.trim()===l.toUpperCase());
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function(){
+            const cur = (typeof I18N !== 'undefined') ? I18N.currentLang : (localStorage.getItem('selectedLanguage') || 'en');
+            document.querySelectorAll('#lang-switcher .lang-btn').forEach(b=>{
+                b.classList.toggle('active', b.textContent.trim()===cur.toUpperCase());
+            });
+        });
+    </script>
     <script>
         // Initialize EmailJS using the central CONFIG if available
         (function() {
