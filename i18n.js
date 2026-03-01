@@ -222,12 +222,126 @@ const I18N = {
             "math.office_text": "Wtorki 17:00–18:30 CET — dołącz przez Telegram lub wyślij mi e-mail, aby uzyskać link do spotkania.",
             "math.contact": "Kontakt i wysyłanie"
         }
+        ,
+        ru: {
+            // Navigation
+            "nav.home": "Главная",
+            "nav.about": "Обо мне",
+            "nav.math": "Помогаю с математикой",
+            "nav.physics": "Помогаю с физикой",
+            "nav.skills": "Навыки",
+            "nav.live": "Лаборатория GitHub",
+            "nav.education": "Образование",
+            "nav.contact": "Контакты",
+
+            // Hero section
+            "hero.title": "Yauheniya Drozd",
+            "hero.subtitle": "Студентка Data Science и машинного обучения",
+            "hero.description": "Преобразую данные в полезные выводы с помощью аналитики и машинного обучения. Люблю решать сложные задачи методами, основанными на данных.",
+
+            // Buttons
+            "buttons.viewProjects": "<i class=\"fas fa-code\"></i> Посмотреть проекты",
+            "buttons.getInTouch": "<i class=\"fas fa-paper-plane\"></i> Связаться со мной",
+
+            // About section
+            "about.title": "Обо мне",
+            "about.p1": "Я учусь на специальности System Engineering с специализацией в Data Engineering, практикую задачи машинного обучения, анализа данных и оптимизации. Специализируюсь на превращении сложных наборов данных в понятные истории, которые помогают принимать обоснованные решения и приносят ценность.",
+            "about.p2": "Мои технические навыки включают программирование на Python, статистический анализ и ниже подробнее... ",
+
+            // Skills section
+            "skills.title": "Технические навыки",
+            "skills.categories.data_science": "Data Science",
+            "skills.categories.data_viz": "Визуализация данных",
+            "skills.categories.tools": "Инструменты и технологии",
+            "skills.items.python": "Python",
+            "skills.items.pandas": "Pandas",
+            "skills.items.numpy": "NumPy",
+            "skills.items.scikit": "Scikit-learn",
+            "skills.items.tf": "TensorFlow",
+            "skills.items.matplotlib": "Matplotlib",
+            "skills.items.seaborn": "Seaborn",
+            "skills.items.git": "Git",
+            "skills.items.sql": "SQL",
+            "skills.items.jupyter": "Jupyter",
+
+            // Live projects
+            "live.title": "Лаборатория GitHub",
+            "live.description": "Раздел формируется автоматически из моего профиля на GitHub. Выберите режим отображения и посмотрите, над чем я работаю сейчас.",
+            "live.controls.recent": "Последние",
+            "live.controls.stars": "По звёздам",
+            "live.loading": "Загрузка проектов с GitHub…",
+            "live.no_repos": "Публичные репозитории не найдены.",
+            "live.error": "❌ Не удалось загрузить проекты с GitHub. Пожалуйста, попробуйте позже.",
+            "live.no_description": "Описание отсутствует — экспериментальная площадка.",
+            "live.updated": "Обновлено",
+            "live.updated_recently": "Обновлено недавно",
+            "live.highlighted": "Рекомендованные",
+            "live.open_on_github": "Открыть на GitHub",
+
+            // Education
+            "education.title": "Образование и достижения",
+            "achievements.uni": "Wrocław University of Science and Technology",
+            "achievements.uni_desc": "В настоящее время я изучаю System Engineering и Data Engineering в одном из ведущих технических университетов Польши (2023–2027), получая международный опыт и развивая как технические, так и профессиональные компетенции.",
+            "achievements.nawa": "Стипендия NAWA",
+            "achievements.nawa_desc": "Я получила стипендию от Национального агентства академического обмена Польши (NAWA) за отличные учебные достижения и вклад в международное сотрудничество.",
+            "achievements.skills_for_work": "Skills for Work (Santander, Coursera)",
+            "achievements.skills_for_work_desc": "Я была отобрана в программу «Skills for Work», организованную банком Santander и платформой Coursera, где улучшала профессиональные навыки через специализированные курсы.",
+            "badge.selected": "Выбрано",
+            "student_government.title": "Студенческий совет – комиссия по спорту и туризму",
+            "student_government.desc": "Активно участвую в работе студенческого совета Политехники Вроцлавской, в частности в комиссии по спорту и туризму: помогаю организовывать мероприятия и продвигать активный образ жизни среди студентов.",
+            "student_government.link": "Перейти на сайт Samorząd",
+            "language.title": "Языковые навыки",
+
+            // Contact
+            "contact.title": "Свяжитесь со мной",
+            "contact.description": "Я открыта для фриланс‑проектов, стажировок и сотрудничества. Если у вас есть предложение или вы хотите обсудить Data Science — напишите мне!",
+            "contact.getInTouch": "Связаться",
+            "contact.email_label": "edrozd.by@gmail.com",
+            "contact.location": "Вроцлав, Польша",
+            "contact.response": "Обычно отвечаю в течение 24 часов",
+
+            // Modal
+            "modal.title": "Отправить сообщение",
+            "modal.subtitle": "Отвечу в ближайшее время",
+            "modal.name": "Ваше имя",
+            "modal.email": "Ваш email",
+            "modal.message": "Ваше сообщение",
+            "modal.submit": "Отправить",
+            "modal_messages.sending": "Отправка...",
+            "modal_messages.sent_success": "✅ Сообщение отправлено! Скоро свяжусь с вами.",
+            "modal_messages.service_error": "❌ Сервис отправки почты не загружен. Пожалуйста, обновите страницу.",
+            "modal_messages.fill_fields": "❌ Пожалуйста, заполните все поля",
+            "modal_messages.send_error_prefix": "❌ Ошибка отправки: ",
+            "modal_messages.try_later": "Пожалуйста, попробуйте позже",
+
+            // Footer
+            "footer.copy": "© 2025 Yauheniya Drozd. Сделано с любовью к Data Science.",
+
+            // Math page
+            "math.title": "Помощь по математике и задания",
+            "math.welcome": "Добро пожаловать — на этой странице собраны материалы по математике, часы приёма и задания для студентов. Ниже вы найдёте ресурсы, описания задач и инструкции по отправке.",
+            "math.upcoming": "Следующее задание — Линейная алгебра: собственные значения",
+            "math.due": "Срок: <strong>2026-01-10</strong>",
+            "math.list1": "Вычислите собственные значения и собственные векторы для указанных матриц.",
+            "math.list2": "Подготовьте краткий отчёт (PDF) с результатами и их интерпретацией.",
+            "math.list3": "Отправьте на почту <a href=\"mailto:edrozd.by@gmail.com\">edrozd.by@gmail.com</a> или опубликуйте в репозитории GitHub и пришлите ссылку.",
+            "math.download": "Скачать PDF задания",
+            "math.resources": "Ресурсы",
+            "math.resources_khan": "Khan Academy — Линейная алгебра",
+            "math.resources_numpy": "Документация NumPy (полезна для расчётов)",
+            "math.office": "Часы приёма",
+            "math.office_text": "По вторникам 17:00–18:30 CET — присоединяйтесь через Telegram или напишите мне, чтобы получить ссылку на встречу.",
+            "math.contact": "Контакт и отправка"
+        }
     },
 
     // Initialize the i18n system
     init: function() {
-        // Get saved language from localStorage or default to 'en'
-        const savedLang = localStorage.getItem('selectedLanguage') || 'en';
+        // Get saved language from localStorage. If it's missing or invalid, default to 'en'
+        const storedLang = localStorage.getItem('selectedLanguage');
+        const savedLang = (storedLang && this.translations[storedLang]) ? storedLang : 'en';
+        // Ensure localStorage reflects the effective language
+        localStorage.setItem('selectedLanguage', savedLang);
         this.setLanguage(savedLang);
 
         // Populate language selector
