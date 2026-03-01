@@ -6,8 +6,8 @@ const I18N = {
             // Navigation
             "nav.home": "Home",
             "nav.about": "About",
-            "nav.math": "I help with Math",
-            "nav.physics": "I help with Physics",
+            "nav.math": "Math",
+            "nav.physics": "PhysLab",
             "nav.skills": "Skills",
             "nav.live": "GitHub Lab",
             "nav.education": "Education",
@@ -116,8 +116,8 @@ const I18N = {
             // Navigation
             "nav.home": "Strona główna",
             "nav.about": "O mnie",
-            "nav.math": "Pomagam z matematyką",
-            "nav.physics": "Pomagam z fizyką",
+            "nav.math": "Matematyka",
+            "nav.physics": "Fizyka",
             "nav.skills": "Umiejętności",
             "nav.live": "Laboratorium GitHub",
             "nav.education": "Edukacja",
@@ -227,8 +227,8 @@ const I18N = {
             // Navigation
             "nav.home": "Главная",
             "nav.about": "Обо мне",
-            "nav.math": "Помогаю с математикой",
-            "nav.physics": "Помогаю с физикой",
+            "nav.math": "Математика",
+            "nav.physics": "Физика",
             "nav.skills": "Навыки",
             "nav.live": "Лаборатория GitHub",
             "nav.education": "Образование",
