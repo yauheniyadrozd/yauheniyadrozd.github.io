@@ -12,3 +12,5 @@ I am thinking about creating something that people could use, starting from just
 14.01.2026 Idk what to do with my idea about math and physics. So deleted 
 
 I want to put it on GitHub and make it live. It is human made.
+
+Okay checking 
