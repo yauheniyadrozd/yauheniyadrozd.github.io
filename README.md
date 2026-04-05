@@ -5,10 +5,14 @@ What I am researching:
 
 I am thinking about creating something that people could use, starting from just my portfolio.
 
+Site diary:
+
 27.12.2025 I decided that me giving lessons should be shown on the site too. That's why I added the "I help with math and physics" section.
 
 10.01.2026 I made focus. It's cool and I use it.
 
-14.01.2026 Idk what to do with my idea about math and physics. So deleted 
+14.01.2026 Idk what to do with my idea about math and physics. So deleted. Then renewed, i don't remember exact date and lazy to check.
+
+05.04.2026 My mom told me my photo is really bad, so changed.
 
 I want to put it on GitHub and make it live. It is human made.
