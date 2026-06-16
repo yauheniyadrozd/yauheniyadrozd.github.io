@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-commerce Brasil — Dashboard BI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f0f1a;
+    --bg2: #161625;
+    --bg3: #1e1e32;
+    --bg4: #252540;
+    --accent: #6366f1;
+    --accent2: #818cf8;
+    --accent3: #4f46e5;
+    --text: #e2e8f0;
+    --text2: #94a3b8;
+    --text3: #64748b;
+    --border: rgba(99,102,241,0.15);
+    --border2: rgba(99,102,241,0.3);
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --pink: #ec4899;
+    --teal: #06b6d4;
+    --r: 10px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-badge {
+    width: 28px; height: 28px;
+    background: var(--accent);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: white;
+  }
+  nav { display: flex; gap: 0.25rem; margin-left: auto; }
+  nav a {
+    color: var(--text2);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  nav a:hover, nav a.active { color: var(--text); background: var(--bg4); }
+
+  .header-meta {
+    display: flex; align-items: center; gap: 12px; margin-left: 1rem;
+    padding-left: 1rem;
+    border-left: 1px solid var(--border);
+  }
+  .period-badge {
+    font-size: 12px; color: var(--text3); padding: 4px 10px;
+    background: var(--bg3); border-radius: 20px; border: 1px solid var(--border);
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  /* FILTERS BAR */
+  .filters {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .filter-label { font-size: 12px; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+  .filter-group { display: flex; gap: 6px; }
+  .btn-filter {
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    color: var(--text2);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .btn-filter:hover { border-color: var(--border2); color: var(--text); }
+  .btn-filter.active { background: var(--accent); border-color: var(--accent); color: white; }
+  .filter-sep { width: 1px; height: 24px; background: var(--border); }
+
+  /* PAGE TITLE */
+  .page-title {
+    margin-bottom: 2rem;
+  }
+  .page-title h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .page-title p { font-size: 13px; color: var(--text3); }
+
+  /* KPI CARDS */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .kpi-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.15s;
+  }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .kpi-card:hover { border-color: var(--border2); }
+  .kpi-card:hover::before { opacity: 1; }
+  .kpi-icon {
+    width: 32px; height: 32px;
+    background: rgba(99,102,241,0.12);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 12px;
+    font-size: 16px;
+  }
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text3);
+    margin-bottom: 6px;
+  }
+  .kpi-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .kpi-sub {
+    font-size: 11px;
+    color: var(--text3);
+  }
+  .kpi-badge {
+    display: inline-flex; align-items: center; gap: 3px;
+    font-size: 11px; font-weight: 600;
+    padding: 2px 7px; border-radius: 4px;
+    margin-top: 6px;
+  }
+  .kpi-badge.warn { background: rgba(245,158,11,0.15); color: var(--warning); }
+  .kpi-badge.ok { background: rgba(16,185,129,0.15); color: var(--success); }
+  .kpi-badge.danger { background: rgba(239,68,68,0.15); color: var(--danger); }
+
+  /* SECTION GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+  .grid-12 { display: grid; grid-template-columns: 1fr 2fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+  .grid-21 { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+
+  @media (max-width: 900px) {
+    .grid-2, .grid-3, .grid-12, .grid-21 { grid-template-columns: 1fr; }
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.5rem;
+    overflow: hidden;
+  }
+  .card-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    margin-bottom: 1.25rem;
+    gap: 8px;
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .card-sub {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 2px;
+  }
+  .card-tag {
+    font-size: 11px; font-weight: 500;
+    padding: 3px 8px; border-radius: 4px;
+    background: rgba(99,102,241,0.12);
+    color: var(--accent2);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* CHART CONTAINERS */
+  .chart-wrap {
+    position: relative;
+    width: 100%;
+  }
+
+  /* TABLE */
+  .mini-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .mini-table th {
+    text-align: left;
+    color: var(--text3);
+    font-weight: 600;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0 8px 8px;
+  }
+  .mini-table th:not(:first-child) { text-align: right; }
+  .mini-table td {
+    padding: 6px 8px;
+    color: var(--text);
+    border-top: 1px solid var(--border);
+  }
+  .mini-table td:not(:first-child) { text-align: right; color: var(--text2); }
+  .mini-table tr:first-child td { border-top: none; }
+  .mini-table .city { font-weight: 500; text-transform: capitalize; }
+  .mini-table .state-badge {
+    font-size: 10px; color: var(--accent2);
+    background: rgba(99,102,241,0.12);
+    padding: 1px 5px; border-radius: 3px; margin-left: 4px;
+  }
+  .mini-table .pct-cell { display: flex; align-items: center; gap: 6px; justify-content: flex-end; }
+  .pct-bar-bg { flex: 0 0 50px; height: 4px; background: var(--bg4); border-radius: 2px; }
+  .pct-bar { height: 4px; border-radius: 2px; background: var(--accent); }
+  .pct-bar.high { background: var(--danger); }
+  .pct-bar.mid { background: var(--warning); }
+
+  /* COMPARE STATS */
+  .compare-stat {
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+  .compare-item {
+    background: var(--bg3);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--border);
+  }
+  .compare-item-label { font-size: 11px; color: var(--text3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .compare-item-val { font-size: 22px; font-weight: 700; color: var(--text); }
+  .compare-item-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+  /* SEGMENT BARS */
+  .segment-list { display: flex; flex-direction: column; gap: 10px; }
+  .segment-item {}
+  .segment-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+  .segment-name { font-size: 12px; font-weight: 500; color: var(--text); }
+  .segment-val { font-size: 12px; color: var(--text2); }
+  .segment-bar-bg { width: 100%; height: 6px; background: var(--bg4); border-radius: 3px; }
+  .segment-bar { height: 6px; border-radius: 3px; }
+
+  /* WORD CLOUD TABLE */
+  .word-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;
+  }
+  .word-item {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg3); border-radius: 6px;
+    padding: 6px 10px; font-size: 12px;
+  }
+  .word-text { color: var(--text); font-weight: 500; }
+  .word-count { color: var(--text3); font-size: 11px; }
+
+  /* LEGEND */
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 8px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text2); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+
+  /* SECTION HEADER */
+  .section-heading {
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--text3);
+    margin: 2rem 0 1rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-heading::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--text3); font-size: 12px;
+    margin-top: 2rem;
+  }
+  footer a { color: var(--accent2); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-badge">BR</div>
+    E-commerce Brasil
+  </div>
+  <nav>
+    <a href="#overview" class="active">Przegląd</a>
+    <a href="#deliveries">Dostawy</a>
+    <a href="#payments">Płatności</a>
+    <a href="#reviews">Opinie</a>
+  </nav>
+  <div class="header-meta">
+    <span class="period-badge">Platforma Olist</span>
+    <span class="period-badge">2016–2018</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- FILTERS -->
+  <div class="filters" style="margin-top:1.5rem;">
+    <span class="filter-label">Rok</span>
+    <div class="filter-group">
+      <button class="btn-filter active" onclick="setYear('all',this)">Wszystkie</button>
+      <button class="btn-filter" onclick="setYear('2016',this)">2016</button>
+      <button class="btn-filter" onclick="setYear('2017',this)">2017</button>
+      <button class="btn-filter" onclick="setYear('2018',this)">2018</button>
+    </div>
+    <div class="filter-sep"></div>
+    <span class="filter-label">Region</span>
+    <div class="filter-group">
+      <button class="btn-filter active" onclick="setRegion('all',this)">Wszystkie stany</button>
+      <button class="btn-filter" onclick="setRegion('SE',this)">Płd.-Wschód</button>
+      <button class="btn-filter" onclick="setRegion('S',this)">Południe</button>
+      <button class="btn-filter" onclick="setRegion('NE',this)">Płn.-Wschód</button>
+    </div>
+  </div>
+
+  <!-- KPI ROW -->
+  <div id="overview" class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-icon">💰</div>
+      <div class="kpi-label">Przychód łączny</div>
+      <div class="kpi-value">13.6M</div>
+      <div class="kpi-sub">BRL · 14.6M PLN</div>
+      <div class="kpi-badge ok">↑ Olist 2016–2018</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">📦</div>
+      <div class="kpi-label">Zamówienia</div>
+      <div class="kpi-value">98 666</div>
+      <div class="kpi-sub">łącznie w okresie</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">⚠️</div>
+      <div class="kpi-label">Spóźnione</div>
+      <div class="kpi-value">7 265</div>
+      <div class="kpi-sub">6.5% wszystkich zamówień</div>
+      <div class="kpi-badge warn">6.5%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">⭐</div>
+      <div class="kpi-label">Śr. ocena</div>
+      <div class="kpi-value">4.09</div>
+      <div class="kpi-sub">56 910 ocen 5★</div>
+      <div class="kpi-badge ok">★★★★</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">👎</div>
+      <div class="kpi-label">Opinie negatywne</div>
+      <div class="kpi-value">14 396</div>
+      <div class="kpi-sub">oceny 1–2★</div>
+      <div class="kpi-badge danger">14.6%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">💳</div>
+      <div class="kpi-label">Transakcje ratalne</div>
+      <div class="kpi-value">49.4%</div>
+      <div class="kpi-sub">śr. 2.9 rat · 50 840 zamówień</div>
+    </div>
+  </div>
+
+  <!-- REVENUE + PAYMENTS -->
+  <div class="section-heading">Przychody i płatności</div>
+
+  <div class="grid-2">
+    <!-- REVENUE MONTHLY -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Przychód miesięczny</div>
+          <div class="card-sub">PLN · 2016–2018</div>
+        </div>
+        <div class="card-tag">Trend</div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#6366f1"></div>2016</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#818cf8"></div>2017</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div>2018</div>
+      </div>
+      <div class="chart-wrap" style="height:240px">
+        <canvas id="revenueChart" role="img" aria-label="Wykres przychodów miesięcznych 2016-2018 w PLN">Przychody rosły z ~300 PLN w 2016 do ponad 1M PLN w listopadzie 2017 i ok. 1M PLN miesięcznie w 2018.</canvas>
+      </div>
+    </div>
+
+    <!-- PAYMENT TYPES -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Jednorazowa vs. ratalna</div>
+          <div class="card-sub">Śr. wartość zamówienia · BRL</div>
+        </div>
+        <div class="card-tag">2016–2018</div>
+      </div>
+      <div class="compare-stat" style="margin-bottom:1.5rem">
+        <div class="compare-item">
+          <div class="compare-item-label">Jednorazowa</div>
+          <div class="compare-item-val">91.14 <span style="font-size:14px;font-weight:400;color:var(--text3)">BRL</span></div>
+          <div class="compare-item-sub">48 611 zamówień · 98.20 PLN</div>
+        </div>
+        <div class="compare-item" style="border-color:var(--accent);border-left:2px solid var(--accent)">
+          <div class="compare-item-label" style="color:var(--accent2)">Ratalna — wyższe AOV</div>
+          <div class="compare-item-val" style="color:var(--accent2)">150.33 <span style="font-size:14px;font-weight:400;color:var(--text3)">BRL</span></div>
+          <div class="compare-item-sub">50 840 zamówień · 161.99 PLN · śr. 2.9 rat</div>
+        </div>
+      </div>
+      <div class="card-sub" style="margin-bottom:8px">Typy płatności — udział transakcji</div>
+      <div class="segment-list">
+        <div class="segment-item">
+          <div class="segment-header"><span class="segment-name">Karta kredytowa</span><span class="segment-val">73.9%</span></div>
+          <div class="segment-bar-bg"><div class="segment-bar" style="width:73.9%;background:#6366f1"></div></div>
+        </div>
+        <div class="segment-item">
+          <div class="segment-header"><span class="segment-name">Boleto</span><span class="segment-val">19.5%</span></div>
+          <div class="segment-bar-bg"><div class="segment-bar" style="width:19.5%;background:#818cf8"></div></div>
+        </div>
+        <div class="segment-item">
+          <div class="segment-header"><span class="segment-name">Voucher</span><span class="segment-val">5.6%</span></div>
+          <div class="segment-bar-bg"><div class="segment-bar" style="width:5.6%;background:#06b6d4"></div></div>
+        </div>
+        <div class="segment-item">
+          <div class="segment-header"><span class="segment-name">Karta debetowa</span><span class="segment-val">1.5%</span></div>
+          <div class="segment-bar-bg"><div class="segment-bar" style="width:1.5%;background:#a5b4fc"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DELIVERIES SECTION -->
+  <div id="deliveries" class="section-heading">Dostawy i spóźnienia</div>
+
+  <div class="grid-21">
+    <!-- DELAY TABLE -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Spóźnienia — Top 20 miast</div>
+          <div class="card-sub">Liczba spóźnionych zamówień i % opóźnień</div>
+        </div>
+        <div class="card-tag">Wszystkie lata</div>
+      </div>
+      <div style="overflow-y:auto;max-height:340px">
+        <table class="mini-table">
+          <thead><tr>
+            <th>Miasto</th>
+            <th>Zamówień</th>
+            <th>Spóźnień</th>
+            <th>% opóźnień</th>
+          </tr></thead>
+          <tbody id="delayTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- DELAY VS SCORE -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Spóźnienie a ocena</div>
+          <div class="card-sub">Śr. ocena per kwartał</div>
+        </div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>Terminowe</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ef4444;border-left:3px dashed #ef4444;background:none;width:16px;height:2px;border-radius:0"></div>Spóźnione</div>
+      </div>
+      <div class="chart-wrap" style="height:200px">
+        <canvas id="delayScoreChart" role="img" aria-label="Wykres porównujący oceny terminowych i spóźnionych zamówień per kwartał">Terminowe zamówienia oceniane ok. 4.1-4.3, spóźnione 1.6-2.8.</canvas>
+      </div>
+      <div class="card-sub" style="margin-top:1rem">Segmenty czasu odpowiedzi sprzedawcy</div>
+      <div class="segment-list" style="margin-top:8px">
+        <div class="segment-item">
+          <div class="segment-header"><span class="segment-name">Szybka (&lt;24h)</span><span class="segment-val" style="color:var(--success)">24 181 klientów</span></div>
+          <div class="segment-bar-bg"><div class="segment-bar" style="width:24.7%;background:#10b981"></div></div>
+        </div>
+        <div class="segment-item">
+          <div class="segment-header"><span class="segment-name">Średnia (24–72h)</span><span class="segment-val" style="color:var(--warning)">46 437 klientów</span></div>
+          <div class="segment-bar-bg"><div class="segment-bar" style="width:47.4%;background:#f59e0b"></div></div>
+        </div>
+        <div class="segment-item">
+          <div class="segment-header"><span class="segment-name">Spóźniona (&gt;72h)</span><span class="segment-val" style="color:var(--danger)">27 671 klientów</span></div>
+          <div class="segment-bar-bg"><div class="segment-bar" style="width:28.2%;background:#ef4444"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- DELAY MONTHS -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Śr. opóźnienie — miesięcznie</div>
+          <div class="card-sub">Dni opóźnienia i liczba spóźnionych zamówień</div>
+        </div>
+        <div class="card-tag">2017–2018</div>
+      </div>
+      <div class="chart-wrap" style="height:220px">
+        <canvas id="delayMonthChart" role="img" aria-label="Wykres opóźnień miesięcznych — dni i liczba zamówień">Największa liczba spóźnień w listopadzie 2017 (1009) i marcu 2018 (1447). Najdłuższe opóźnienia we wczesnym 2017.</canvas>
+      </div>
+    </div>
+
+    <!-- LATE VALUE 2018 -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Wartość spóźnionych zamówień</div>
+          <div class="card-sub">PLN miesięcznie · 2018</div>
+        </div>
+        <div class="card-tag">2018</div>
+      </div>
+      <div class="chart-wrap" style="height:220px">
+        <canvas id="lateValueChart" role="img" aria-label="Wartość spóźnionych zamówień w 2018 roku w PLN">Marzec 2018 — najwyższa wartość spóźnionych zamówień: 195 521 PLN (1328 zamówień).</canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- FREIGHT -->
+  <div class="card" style="margin-bottom:1.5rem">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Koszt dostawy per stan</div>
+        <div class="card-sub">Śr. koszt BRL · % wartości zamówienia · Top 15 najdroższych stanów</div>
+      </div>
+      <div class="card-tag">Wszystkie lata</div>
+    </div>
+    <div class="chart-wrap" style="height:320px">
+      <canvas id="freightChart" role="img" aria-label="Wykres kosztów dostawy dla 15 stanów z najwyższymi kosztami">RR, MA i RO mają najwyższe % kosztu dostawy względem wartości zamówienia (ponad 24%).</canvas>
+    </div>
+  </div>
+
+  <!-- PAYMENTS SECTION -->
+  <div id="payments" class="section-heading">Płatności regionalne</div>
+
+  <div class="grid-2">
+    <!-- INSTALLMENTS BY STATE -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Transakcje ratalne — Top 10 stanów</div>
+          <div class="card-sub">Liczba transakcji i śr. liczba rat</div>
+        </div>
+        <div class="card-tag">Wszystkie lata</div>
+      </div>
+      <div class="chart-wrap" style="height:280px">
+        <canvas id="installmentsChart" role="img" aria-label="Transakcje ratalne według stanu - top 10">SP dominuje z blisko 20 000 transakcji ratalnych.</canvas>
+      </div>
+    </div>
+
+    <!-- CHRISTMAS CATEGORIES -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Kategorie — sezon świąteczny</div>
+          <div class="card-sub">% spóźnień · Q4 2017</div>
+        </div>
+        <div class="card-tag">Q4 2017</div>
+      </div>
+      <div class="chart-wrap" style="height:280px">
+        <canvas id="xmasChart" role="img" aria-label="Wykres spóźnień dla kategorii produktów w Q4 2017">Elektronika, perfumy i artykuły domowe miały spóźnienia poniżej 9%. Akcesoria bagażowe zaledwie 2.5%.</canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEWS SECTION -->
+  <div id="reviews" class="section-heading">Opinie klientów</div>
+
+  <div class="grid-2">
+    <!-- NEGATIVE BY STATE -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Negatywne opinie per stan</div>
+          <div class="card-sub">Oceny 1–2★ per rok</div>
+        </div>
+        <div class="card-tag">2016–2018</div>
+      </div>
+      <div class="chart-wrap" style="height:300px">
+        <canvas id="negReviewsChart" role="img" aria-label="Wykres negatywnych opinii per stan dla lat 2016-2018">SP i RJ dominują negatywne opinie. Gwałtowny wzrost w 2017-2018 po ekspansji platformy.</canvas>
+      </div>
+    </div>
+
+    <!-- WORDS + 5 STAR -->
+    <div style="display:flex;flex-direction:column;gap:1.5rem;">
+      <!-- TOP WORDS -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Najczęstsze słowa w negatywnych opiniach</div>
+            <div class="card-sub">Top 15 słów z recenzji 1–2★ (j. portug.)</div>
+          </div>
+        </div>
+        <div class="word-grid" id="wordGrid"></div>
+      </div>
+
+      <!-- 5 STAR TOP -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Oceny 5★ — Top 10 kategorii</div>
+            <div class="card-sub">Łączna liczba ocen 5★ per kategoria</div>
+          </div>
+        </div>
+        <div class="chart-wrap" style="height:200px">
+          <canvas id="fiveStarChart" role="img" aria-label="Top 10 kategorii według liczby ocen 5 gwiazdek">Health & Beauty i Bed/Bath/Table są najlepiej ocenianymi kategoriami.</canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span>E-commerce Brasil · Platforma Olist · 2016–2018 · Etap 3 BI</span>
+  <a href="https://yauheniyadrozd.github.io/" target="_blank">Yauheniya Drozd — Data Scientist ↗</a>
+</footer>
+
+<script>
+/* ── DATA ── */
+const revenueData = {
+  labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+  y2016: [0,0,0,0,0,0,0,0,314,58942,0,14],
+  y2017: [154385,321750,480686,453301,599521,493613,571101,657052,713696,756423,1114678,803591],
+  y2018: [1010053,877709,1025059,1002699,997797,843339,868345,830317,132,0,0,0]
+};
+
+const delayData = [
+  {city:'sao paulo',state:'SP',orders:17402,late:818,pct:4.7},
+  {city:'rio de janeiro',state:'RJ',orders:7595,late:777,pct:10.2},
+  {city:'salvador',state:'BA',orders:1358,late:194,pct:14.3},
+  {city:'belo horizonte',state:'MG',orders:3087,late:154,pct:5.0},
+  {city:'porto alegre',state:'RS',orders:1572,late:153,pct:9.7},
+  {city:'brasilia',state:'DF',orders:2341,late:141,pct:6.0},
+  {city:'campinas',state:'SP',orders:1626,late:135,pct:8.3},
+  {city:'fortaleza',state:'CE',orders:694,late:105,pct:15.1},
+  {city:'niteroi',state:'RJ',orders:958,late:102,pct:10.6},
+  {city:'sao goncalo',state:'RJ',orders:421,late:90,pct:21.4},
+  {city:'sao luis',state:'MA',orders:377,late:76,pct:20.2},
+  {city:'recife',state:'PE',orders:656,late:74,pct:11.3},
+  {city:'goiania',state:'GO',orders:784,late:70,pct:8.9},
+  {city:'curitiba',state:'PR',orders:1727,late:68,pct:3.9},
+  {city:'maceio',state:'AL',orders:250,late:65,pct:26.0},
+  {city:'florianopolis',state:'SC',orders:650,late:62,pct:9.5},
+  {city:'nova iguacu',state:'RJ',orders:487,late:60,pct:12.3},
+  {city:'sao bernardo do campo',state:'SP',orders:1041,late:54,pct:5.2},
+  {city:'teresina',state:'PI',orders:293,late:54,pct:18.4},
+  {city:'guarulhos',state:'SP',orders:1293,late:53,pct:4.1},
+];
+
+const delayScore = {
+  labels:['Q4-16','Q1-17','Q2-17','Q3-17','Q4-17','Q1-18','Q2-18','Q3-18'],
+  onTime:[3.6,4.18,4.14,4.23,4.11,4.05,4.17,4.27],
+  late:[1.6,2.13,2.51,2.36,2.27,2.0,2.29,2.79]
+};
+
+const delayMonthData = {
+  labels:['Jan 17','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan 18','Feb','Mar','Apr','May','Jun','Jul','Aug'],
+  days:[21.8,18.8,23.6,12.9,14.4,15.1,10.1,8.4,9.3,8.9,11.0,9.5,11.8,12.3,9.9,10.5,6.9,12.2,8.2,4.4],
+  count:[24,58,136,160,128,103,133,133,208,204,1009,452,463,1047,1447,319,495,81,228,432]
+};
+
+const lateValue2018 = {
+  labels:['Sty','Lut','Mar','Kwi','Maj','Cze','Lip','Sie'],
+  pln:[72971,132195,195522,48984,66082,12474,35554,51260],
+  orders:[403,927,1328,306,443,71,208,393]
+};
+
+const freightData = {
+  states:['RR','MA','RO','PI','AM','SE','TO','AC','RN','PE','PB','PA','CE','AP','AL'],
+  freight:[42.98,38.30,41.22,39.29,33.21,36.75,37.37,40.07,35.86,33.06,43.01,35.87,32.91,34.43,36.25],
+  pct:[28.5,26.4,24.8,24.5,24.5,24.0,23.7,23.1,22.8,22.7,22.4,21.6,21.4,20.8,19.9]
+};
+
+const installData = {
+  states:['SP','RJ','MG','RS','PR','BA','SC','ES','GO','DF'],
+  trans:[19970,7055,6315,2777,2500,1977,1816,1110,1094,1062],
+  avgInst:[4.5,4.8,4.8,5.0,4.9,5.0,4.9,4.8,4.8,4.6]
+};
+
+const xmasData = {
+  cats:['Bagaż','Napoje','Agd','Budownictwo','Elektronika','Meble/salon','Perfumy','Artykuły dom.','Drinks','Pet shop','Zdrowie','Konsole','Sport','Torby','Telefonia'],
+  pct:[2.5,3.6,5.0,5.2,6.8,6.8,6.9,7.1,7.5,7.5,7.8,7.9,8.1,8.6,8.6]
+};
+
+const negReviews = {
+  states:['SP','RJ','MG','RS','BA','PR','SC','DF','GO','PE'],
+  y2016:[35,22,13,8,1,3,4,2,1,1],
+  y2017:[2133,984,627,313,264,246,232,134,125,121],
+  y2018:[3200,1400,900,450,380,350,320,190,180,170]
+};
+
+const words = [
+  {w:'comprei',n:1882},{w:'entregue',n:1329},{w:'chegou',n:1180},
+  {w:'estou',n:961},{w:'loja',n:775},{w:'agora',n:689},
+  {w:'quero',n:519},{w:'nada',n:517},{w:'produtos',n:513},
+  {w:'site',n:513},{w:'dois',n:501},{w:'qualidade',n:436},
+  {w:'outro',n:435},{w:'aguardando',n:424},{w:'porém',n:399}
+];
+
+const fiveStarData = {
+  cats:['health_beauty','bed_bath_table','sports_leisure','furniture_decor','computers','housewares','watches_gifts','toys','garden_tools','auto'],
+  labels:['Zdrowie/Uroda','Dom/Łazienka','Sport/Czas wolny','Meble/Dekor','Komputery','Art. domowe','Zegary/Prezenty','Zabawki','Ogród','Auto'],
+  vals:[5807,5689,5071,4412,4162,3972,3327,2507,2471,2363]
+};
+
+/* ── CHART DEFAULTS ── */
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.font.family = 'Inter, sans-serif';
+Chart.defaults.font.size = 11;
+
+const gridColor = 'rgba(99,102,241,0.08)';
+const tickColor = '#64748b';
+
+function baseOptions(extras={}) {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { ...tooltipStyle() } },
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { color: tickColor } },
+      y: { grid: { color: gridColor }, ticks: { color: tickColor } }
+    },
+    ...extras
+  };
+}
+
+function tooltipStyle() {
+  return {
+    backgroundColor: '#1e1e32',
+    borderColor: 'rgba(99,102,241,0.3)',
+    borderWidth: 1,
+    titleColor: '#e2e8f0',
+    bodyColor: '#94a3b8',
+    padding: 10,
+    cornerRadius: 8
+  };
+}
+
+/* ── REVENUE CHART ── */
+new Chart(document.getElementById('revenueChart'), {
+  type: 'bar',
+  data: {
+    labels: revenueData.labels,
+    datasets: [
+      { label: '2016', data: revenueData.y2016, backgroundColor: 'rgba(99,102,241,0.7)', borderRadius: 3 },
+      { label: '2017', data: revenueData.y2017, backgroundColor: 'rgba(129,140,248,0.7)', borderRadius: 3 },
+      { label: '2018', data: revenueData.y2018, backgroundColor: 'rgba(6,182,212,0.7)', borderRadius: 3 }
+    ]
+  },
+  options: {
+    ...baseOptions(),
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { color: tickColor }, stacked: false },
+      y: { grid: { color: gridColor }, ticks: { color: tickColor, callback: v => v >= 1e6 ? (v/1e6).toFixed(1)+'M' : v >= 1e3 ? (v/1e3).toFixed(0)+'k' : v } }
+    }
+  }
+});
+
+/* ── DELAY TABLE ── */
+function renderDelayTable() {
+  const tbody = document.getElementById('delayTableBody');
+  tbody.innerHTML = delayData.map(d => {
+    const pctClass = d.pct > 18 ? 'high' : d.pct > 12 ? 'mid' : '';
+    const barW = Math.round(d.pct / 30 * 100);
+    return `<tr>
+      <td class="city">${d.city}<span class="state-badge">${d.state}</span></td>
+      <td>${d.orders.toLocaleString('pl')}</td>
+      <td>${d.late}</td>
+      <td>
+        <div class="pct-cell">
+          <span>${d.pct}%</span>
+          <div class="pct-bar-bg"><div class="pct-bar ${pctClass}" style="width:${barW}%"></div></div>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+renderDelayTable();
+
+/* ── DELAY vs SCORE ── */
+new Chart(document.getElementById('delayScoreChart'), {
+  type: 'line',
+  data: {
+    labels: delayScore.labels,
+    datasets: [
+      {
+        label: 'Terminowe', data: delayScore.onTime,
+        borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.08)',
+        borderWidth: 2, pointRadius: 3, fill: true, tension: 0.3
+      },
+      {
+        label: 'Spóźnione', data: delayScore.late,
+        borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.05)',
+        borderWidth: 2, pointRadius: 3, borderDash: [5,3], fill: true, tension: 0.3
+      }
+    ]
+  },
+  options: {
+    ...baseOptions(),
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { color: tickColor } },
+      y: { grid: { color: gridColor }, ticks: { color: tickColor }, min: 1, max: 5, stepSize: 1 }
+    }
+  }
+});
+
+/* ── DELAY MONTHLY ── */
+new Chart(document.getElementById('delayMonthChart'), {
+  type: 'bar',
+  data: {
+    labels: delayMonthData.labels,
+    datasets: [
+      {
+        type: 'bar', label: 'Liczba spóźnionych', data: delayMonthData.count,
+        backgroundColor: 'rgba(99,102,241,0.6)', borderRadius: 3, yAxisID: 'y'
+      },
+      {
+        type: 'line', label: 'Śr. dni opóźnienia', data: delayMonthData.days,
+        borderColor: '#f59e0b', backgroundColor: 'transparent',
+        borderWidth: 2, pointRadius: 3, tension: 0.3, yAxisID: 'y2'
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: tooltipStyle() },
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { color: tickColor, maxRotation: 45 } },
+      y: { grid: { color: gridColor }, ticks: { color: tickColor }, position: 'left' },
+      y2: { grid: { display: false }, ticks: { color: '#f59e0b' }, position: 'right' }
+    }
+  }
+});
+
+/* ── LATE VALUE 2018 ── */
+new Chart(document.getElementById('lateValueChart'), {
+  type: 'bar',
+  data: {
+    labels: lateValue2018.labels,
+    datasets: [
+      {
+        type: 'bar', label: 'Wartość PLN', data: lateValue2018.pln,
+        backgroundColor: 'rgba(236,72,153,0.6)', borderRadius: 3, yAxisID: 'y'
+      },
+      {
+        type: 'line', label: 'Zamówienia', data: lateValue2018.orders,
+        borderColor: '#818cf8', backgroundColor: 'transparent',
+        borderWidth: 2, pointRadius: 3, tension: 0.3, yAxisID: 'y2'
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: tooltipStyle() },
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { color: tickColor } },
+      y: { grid: { color: gridColor }, ticks: { color: tickColor, callback: v => v >= 1e3 ? (v/1e3).toFixed(0)+'k' : v }, position: 'left' },
+      y2: { grid: { display: false }, ticks: { color: '#818cf8' }, position: 'right' }
+    }
+  }
+});
+
+/* ── FREIGHT CHART ── */
+new Chart(document.getElementById('freightChart'), {
+  type: 'bar',
+  data: {
+    labels: freightData.states,
+    datasets: [
+      {
+        type: 'bar', label: 'Śr. koszt BRL', data: freightData.freight,
+        backgroundColor: 'rgba(99,102,241,0.65)', borderRadius: 4, yAxisID: 'y'
+      },
+      {
+        type: 'line', label: '% wartości zamów.', data: freightData.pct,
+        borderColor: '#f59e0b', backgroundColor: 'transparent',
+        borderWidth: 2, pointRadius: 4, tension: 0.3, yAxisID: 'y2'
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: tooltipStyle()
+    },
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { color: tickColor } },
+      y: { grid: { color: gridColor }, ticks: { color: tickColor }, position: 'left', title: { display: true, text: 'BRL', color: tickColor } },
+      y2: { grid: { display: false }, ticks: { color: '#f59e0b', callback: v => v+'%' }, position: 'right' }
+    }
+  }
+});
+
+/* ── INSTALLMENTS ── */
+new Chart(document.getElementById('installmentsChart'), {
+  type: 'bar',
+  data: {
+    labels: installData.states,
+    datasets: [
+      {
+        type: 'bar', label: 'Transakcji', data: installData.trans,
+        backgroundColor: 'rgba(6,182,212,0.65)', borderRadius: 4, yAxisID: 'y'
+      },
+      {
+        type: 'line', label: 'Śr. rat', data: installData.avgInst,
+        borderColor: '#a5b4fc', backgroundColor: 'transparent',
+        borderWidth: 2, pointRadius: 4, tension: 0.3, yAxisID: 'y2'
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: tooltipStyle() },
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { color: tickColor } },
+      y: { grid: { color: gridColor }, ticks: { color: tickColor, callback: v => v >= 1e3 ? (v/1e3).toFixed(0)+'k' : v }, position: 'left' },
+      y2: { grid: { display: false }, ticks: { color: '#a5b4fc' }, position: 'right', min: 4, max: 6 }
+    }
+  }
+});
+
+/* ── XMAS CATEGORIES ── */
+new Chart(document.getElementById('xmasChart'), {
+  type: 'bar',
+  indexAxis: 'y',
+  data: {
+    labels: xmasData.cats,
+    datasets: [{
+      label: '% spóźnień',
+      data: xmasData.pct,
+      backgroundColor: xmasData.pct.map(v => v > 8 ? 'rgba(239,68,68,0.65)' : v > 6 ? 'rgba(245,158,11,0.65)' : 'rgba(16,185,129,0.65)'),
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: tooltipStyle() },
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { color: tickColor, callback: v => v+'%' }, max: 10 },
+      y: { grid: { display: false }, ticks: { color: tickColor, font: { size: 10 } } }
+    }
+  }
+});
+
+/* ── NEGATIVE REVIEWS ── */
+new Chart(document.getElementById('negReviewsChart'), {
+  type: 'bar',
+  data: {
+    labels: negReviews.states,
+    datasets: [
+      { label: '2016', data: negReviews.y2016, backgroundColor: 'rgba(99,102,241,0.5)', borderRadius: 3, stack: 's' },
+      { label: '2017', data: negReviews.y2017, backgroundColor: 'rgba(236,72,153,0.6)', borderRadius: 3, stack: 's' },
+      { label: '2018', data: negReviews.y2018, backgroundColor: 'rgba(239,68,68,0.65)', borderRadius: 3, stack: 's' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: tooltipStyle() },
+    scales: {
+      x: { stacked: true, grid: { color: gridColor }, ticks: { color: tickColor } },
+      y: { stacked: true, grid: { color: gridColor }, ticks: { color: tickColor } }
+    }
+  }
+});
+
+/* ── WORD GRID ── */
+const maxW = Math.max(...words.map(w=>w.n));
+document.getElementById('wordGrid').innerHTML = words.slice(0,14).map(w => {
+  const pct = Math.round(w.n/maxW*100);
+  return `<div class="word-item">
+    <span class="word-text">${w.w}</span>
+    <span class="word-count">${w.n.toLocaleString('pl')}</span>
+  </div>`;
+}).join('');
+
+/* ── 5 STAR CHART ── */
+new Chart(document.getElementById('fiveStarChart'), {
+  type: 'bar',
+  indexAxis: 'y',
+  data: {
+    labels: fiveStarData.labels,
+    datasets: [{
+      label: 'Oceny 5★',
+      data: fiveStarData.vals,
+      backgroundColor: fiveStarData.vals.map((_,i) => `rgba(99,102,241,${0.9 - i*0.07})`),
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: tooltipStyle() },
+    scales: {
+      x: { grid: { color: gridColor }, ticks: { color: tickColor, callback: v => v >= 1e3 ? (v/1e3).toFixed(0)+'k' : v } },
+      y: { grid: { display: false }, ticks: { color: tickColor, font: { size: 10 } } }
+    }
+  }
+});
+
+/* ── FILTER LOGIC ── */
+function setYear(y, el) {
+  document.querySelectorAll('.filter-group:first-of-type .btn-filter').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+function setRegion(r, el) {
+  document.querySelectorAll('.filter-group:last-of-type .btn-filter').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+/* ── NAV HIGHLIGHT ── */
+const sections = document.querySelectorAll('[id]');
+const navLinks = document.querySelectorAll('nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#'+current);
+  });
+});
+</script>
+</body>
+</html>

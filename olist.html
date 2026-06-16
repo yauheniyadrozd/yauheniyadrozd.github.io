@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-commerce Brasil · BI Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #F7F5F2;
+    --surface: #FFFFFF;
+    --border: #E8E4DF;
+    --text-primary: #1A1714;
+    --text-secondary: #6B6560;
+    --text-muted: #9E9892;
+    --accent1: #FF6B35;
+    --accent2: #00B4A6;
+    --accent3: #8B5CF6;
+    --accent4: #F59E0B;
+    --accent-light: #FFF0EB;
+    --green: #10B981;
+    --red: #EF4444;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+    --shadow-hover: 0 4px 20px rgba(0,0,0,0.10), 0 8px 40px rgba(0,0,0,0.06);
+    --radius: 20px;
+    --radius-sm: 12px;
+  }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .site-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo-area { display: flex; align-items: center; gap: 12px; }
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--accent1), #FF9A6B);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .logo-text { font-size: 15px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary); }
+  .logo-sub { font-size: 11px; font-weight: 400; color: var(--text-muted); display: block; letter-spacing: 0.04em; text-transform: uppercase; }
+  .header-badge {
+    display: flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white; padding: 6px 14px; border-radius: 100px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.01em;
+  }
+  .header-badge .avatar {
+    width: 24px; height: 24px; background: rgba(255,255,255,0.25);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+  }
+  .hero { background: linear-gradient(135deg, #1A1714 0%, #2D2521 50%, #1A1714 100%); padding: 56px 48px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -80px; right: -80px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255,107,53,0.25) 0%, transparent 70%); pointer-events: none; }
+  .hero::after { content: ''; position: absolute; bottom: -60px; left: 30%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,180,166,0.15) 0%, transparent 70%); pointer-events: none; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,107,53,0.15); border: 1px solid rgba(255,107,53,0.3);
+    color: var(--accent1); padding: 4px 12px; border-radius: 100px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 20px;
+  }
+  .hero-title { font-size: clamp(32px, 5vw, 56px); font-weight: 700; color: #fff; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 10px; position: relative; z-index: 1; }
+  .hero-title span { color: var(--accent1); }
+  .hero-sub { color: rgba(255,255,255,0.5); font-size: 15px; font-weight: 300; margin-bottom: 40px; position: relative; z-index: 1; }
+  .hero-kpis { display: flex; gap: 0; position: relative; z-index: 1; flex-wrap: wrap; }
+  .hero-kpi { flex: 1; min-width: 140px; padding: 20px 24px; border-right: 1px solid rgba(255,255,255,0.08); cursor: default; transition: background 0.2s; }
+  .hero-kpi:first-child { border-left: 1px solid rgba(255,255,255,0.08); }
+  .hero-kpi:hover { background: rgba(255,255,255,0.04); }
+  .hero-kpi-val { font-size: clamp(22px, 3vw, 32px); font-weight: 700; color: #fff; line-height: 1; letter-spacing: -0.02em; font-family: 'DM Mono', monospace; margin-bottom: 4px; }
+  .hero-kpi-label { font-size: 11px; color: rgba(255,255,255,0.4); font-weight: 400; text-transform: uppercase; letter-spacing: 0.06em; }
+  .hero-kpi-badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; margin-top: 4px; font-family: 'DM Mono', monospace; }
+  .badge-green { background: rgba(16,185,129,0.2); color: #34D399; }
+  .badge-red { background: rgba(239,68,68,0.2); color: #F87171; }
+  .badge-orange { background: rgba(255,107,53,0.2); color: var(--accent1); }
+  .nav-tabs { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn { padding: 16px 20px; font-size: 13px; font-weight: 500; color: var(--text-muted); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+  .tab-btn:hover { color: var(--text-primary); }
+  .tab-btn.active { color: var(--accent1); border-bottom-color: var(--accent1); font-weight: 600; }
+  .main { max-width: 1400px; margin: 0 auto; padding: 40px 32px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .section-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; }
+  .section-title { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary); }
+  .section-desc { font-size: 13px; color: var(--text-secondary); margin-top: 4px; font-weight: 300; }
+  .chip { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; background: var(--accent-light); color: var(--accent1); border: 1px solid rgba(255,107,53,0.2); white-space: nowrap; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; }
+  .col-span-2 { grid-column: span 2; }
+  .col-span-full { grid-column: 1 / -1; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: box-shadow 0.25s, transform 0.25s; box-shadow: var(--shadow); cursor: pointer; }
+  .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+  .card-head { padding: 20px 22px 14px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .card-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+  .icon-orange { background: rgba(255,107,53,0.12); }
+  .icon-teal { background: rgba(0,180,166,0.12); }
+  .icon-purple { background: rgba(139,92,246,0.12); }
+  .icon-amber { background: rgba(245,158,11,0.12); }
+  .icon-green { background: rgba(16,185,129,0.12); }
+  .icon-red { background: rgba(239,68,68,0.12); }
+  .card-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 4px; }
+  .card-title { font-size: 14px; font-weight: 600; color: var(--text-primary); line-height: 1.3; }
+  .card-img { width: 100%; height: auto; display: block; border-top: 1px solid var(--border); }
+  .card-img-wrap { position: relative; overflow: hidden; }
+  .card-img-wrap img { width: 100%; height: auto; display: block; transition: transform 0.35s ease; }
+  .card:hover .card-img-wrap img { transform: scale(1.02); }
+  .card-footer { padding: 12px 22px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .card-meta { font-size: 11px; color: var(--text-muted); font-family: 'DM Mono', monospace; }
+  .expand-btn { font-size: 11px; font-weight: 600; color: var(--accent1); background: var(--accent-light); border: none; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background 0.15s; }
+  .expand-btn:hover { background: rgba(255,107,53,0.2); }
+  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px; box-shadow: var(--shadow); transition: all 0.25s; cursor: default; }
+  .kpi-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
+  .kpi-icon { font-size: 22px; margin-bottom: 10px; }
+  .kpi-value { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: var(--text-primary); font-family: 'DM Mono', monospace; line-height: 1; }
+  .kpi-name { font-size: 11px; color: var(--text-muted); font-weight: 400; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .kpi-trend { font-size: 11px; font-weight: 600; margin-top: 6px; display: flex; align-items: center; gap: 4px; }
+  .trend-up { color: var(--green); }
+  .trend-down { color: var(--red); }
+  .trend-neutral { color: var(--accent1); }
+  .stat-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px 22px; border-top: 1px solid var(--border); }
+  .stat-item { text-align: center; }
+  .stat-val { font-size: 20px; font-weight: 700; font-family: 'DM Mono', monospace; color: var(--text-primary); }
+  .stat-name { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+  .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 24px; }
+  .modal-backdrop.open { display: flex; }
+  .modal { background: var(--surface); border-radius: 24px; max-width: 900px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 80px rgba(0,0,0,0.3); animation: modalIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  @keyframes modalIn { from { opacity: 0; transform: scale(0.92) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+  .modal-header { padding: 24px 28px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .modal-title { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+  .modal-close { width: 32px; height: 32px; background: var(--bg); border: 1px solid var(--border); border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+  .modal-close:hover { background: var(--border); }
+  .modal-body { padding: 28px; }
+  .modal-img { width: 100%; border-radius: 12px; }
+  .schema-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); margin-bottom: 32px; }
+  .schema-card img { width: 100%; display: block; }
+  .footer { background: var(--text-primary); color: rgba(255,255,255,0.7); padding: 40px 48px; display: flex; align-items: center; justify-content: space-between; margin-top: 60px; }
+  .footer-author { font-size: 14px; font-weight: 600; color: #fff; }
+  .footer-role { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 2px; font-family: 'DM Mono', monospace; }
+  .footer-tag { background: linear-gradient(135deg, var(--accent1), #FF9A6B); color: #fff; padding: 8px 18px; border-radius: 100px; font-size: 13px; font-weight: 700; letter-spacing: -0.01em; }
+  .prog-bar-wrap { margin-bottom: 8px; }
+  .prog-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .prog-label { font-size: 12px; color: var(--text-secondary); min-width: 60px; }
+  .prog-bar { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .prog-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--accent1), #FF9A6B); transition: width 0.8s ease; }
+  .prog-val { font-size: 12px; font-family: 'DM Mono', monospace; color: var(--text-muted); min-width: 40px; text-align: right; }
+  @media (max-width: 768px) {
+    .hero { padding: 36px 20px; }
+    .hero-kpis { flex-direction: column; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .col-span-2 { grid-column: span 1; }
+    .main { padding: 24px 16px; }
+    .site-header { padding: 0 16px; }
+    .nav-tabs { padding: 0 16px; }
+    .footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="logo-area">
+    <div class="logo-icon"></div>
+    <div>
+      <div class="logo-text">E-commerce Brasil</div>
+      <span class="logo-sub">Business Intelligence · Olist Dataset</span>
+    </div>
+  </div>
+  <div class="header-badge">
+    <div class="avatar">YD</div>
+    Yauheniya Drozd · Data Engineer
+  </div>
+</header>
+<section class="hero">
+  <div class="hero-eyebrow"> BI Dashboard · 2016–2018</div>
+  <h1 class="hero-title">Brazilian E-Commerce<br><span>Intelligence Report</span></h1>
+  <p class="hero-sub">98 666 zamówień · 27 stanów · Analiza dostaw, płatności i satysfakcji klientów</p>
+  <div class="hero-kpis">
+    <div class="hero-kpi">
+      <div class="hero-kpi-val">13.6M</div>
+      <div class="hero-kpi-label">Przychód (BRL)</div>
+      <div class="hero-kpi-badge badge-orange">+580% YoY</div>
+    </div>
+    <div class="hero-kpi">
+      <div class="hero-kpi-val">98 666</div>
+      <div class="hero-kpi-label">Zamówień ogółem</div>
+      <div class="hero-kpi-badge badge-green">↑ Trend</div>
+    </div>
+    <div class="hero-kpi">
+      <div class="hero-kpi-val">6.5%</div>
+      <div class="hero-kpi-label">Spóźnionych</div>
+      <div class="hero-kpi-badge badge-red">7 265 szt.</div>
+    </div>
+    <div class="hero-kpi">
+      <div class="hero-kpi-val">4.09</div>
+      <div class="hero-kpi-label">Śr. ocena</div>
+      <div class="hero-kpi-badge badge-green">/ 5.0</div>
+    </div>
+    <div class="hero-kpi">
+      <div class="hero-kpi-val">19.99</div>
+      <div class="hero-kpi-label">Śr. koszt dostawy</div>
+      <div class="hero-kpi-badge badge-orange">BRL</div>
+    </div>
+    <div class="hero-kpi">
+      <div class="hero-kpi-val">49.4%</div>
+      <div class="hero-kpi-label">Transakcje ratalne</div>
+      <div class="hero-kpi-badge badge-orange">2.9 rat śr.</div>
+    </div>
+  </div>
+</section>
+<nav class="nav-tabs">
+  <button class="tab-btn active" onclick="switchTab('overview')"> Przegląd</button>
+  <button class="tab-btn" onclick="switchTab('delivery')"> Dostawy</button>
+  <button class="tab-btn" onclick="switchTab('payments')"> Płatności</button>
+  <button class="tab-btn" onclick="switchTab('reviews')">⭐ Opinie</button>
+  <button class="tab-btn" onclick="switchTab('schema')"> Schemat DB</button>
+</nav>
+<main class="main">
+  <div id="tab-overview" class="tab-panel active">
+        <div class="section-head" style="margin-bottom:28px">
+      <div>
+        <div class="section-title">Główne wskaźniki</div>
+        <div class="section-desc">Kluczowe metryki całego okresu 2016–2018</div>
+      </div>
+    </div>
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-icon"></div>
+        <div class="kpi-value">13.6M</div>
+        <div class="kpi-name">Przychód BRL</div>
+        <div class="kpi-trend trend-up">↑ Wzrost</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon"></div>
+        <div class="kpi-value">98 666</div>
+        <div class="kpi-name">Zamówień</div>
+        <div class="kpi-trend trend-neutral">Cały okres</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon">⏰</div>
+        <div class="kpi-value">7 265</div>
+        <div class="kpi-name">Spóźnień</div>
+        <div class="kpi-trend trend-down">↓ 6.5% wskaźnik</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon">⭐</div>
+        <div class="kpi-value">4.09</div>
+        <div class="kpi-name">Śr. ocena / 5</div>
+        <div class="kpi-trend trend-up">56 910 ocen 5</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon"></div>
+        <div class="kpi-value">120.65</div>
+        <div class="kpi-name">Śr. koszyk BRL</div>
+        <div class="kpi-trend trend-neutral">Wartość ord.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon"></div>
+        <div class="kpi-value">49.4%</div>
+        <div class="kpi-name">Raty</div>
+        <div class="kpi-trend trend-neutral">Śr. 2.9 rat</div>
+      </div>
+    </div>
+    <div class="section-head">
+      <div>
+        <div class="section-title">Przychody miesięcznie</div>
+        <div class="section-desc">Trend wzrostu 2016–2018 — od 267 BRL do szczytu 1M+ w listopadzie 2017</div>
+      </div>
+      <div class="chip"> Q4 2017 — szczyt</div>
+    </div>
+    <div style="margin-bottom:32px">
+      <div class="card" onclick="openModal('modal-q09')">
+        <div class="card-head">
+          <div>
+            <div class="card-label">Q9 · Trend</div>
+            <div class="card-title">Przychody per miesiąc (BRL vs PLN)</div>
+          </div>
+          <div class="card-icon icon-orange"></div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Przychody per miesiąc" class="card-img">
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">2016-09 → 2018-09 · 24 punkty</span>
+          <button class="expand-btn">Powiększ →</button>
+        </div>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-bottom:32px">
+      <div class="card" onclick="openModal('modal-q07')">
+        <div class="card-head">
+          <div>
+            <div class="card-label">Q7 · Płatności</div>
+            <div class="card-title">Raty vs jednorazowe — różnica koszyka</div>
+          </div>
+          <div class="card-icon icon-teal"></div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Raty vs jednorazowe">
+        </div>
+        <div class="stat-pair">
+          <div class="stat-item">
+            <div class="stat-val" style="color:var(--accent1)">150.33</div>
+            <div class="stat-name">Raty (BRL)</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-val" style="color:var(--accent2)">91.14</div>
+            <div class="stat-name">Jednorazowo (BRL)</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">+65% wyższy koszyk przy ratach</span>
+          <button class="expand-btn">Powiększ →</button>
+        </div>
+      </div>
+      <div class="card" onclick="openModal('modal-q14')">
+        <div class="card-head">
+          <div>
+            <div class="card-label">Q14 · Obsługa</div>
+            <div class="card-title">Czas odpowiedzi — segmenty klientów</div>
+          </div>
+          <div class="card-icon icon-purple">⏱</div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Czas odpowiedzi">
+        </div>
+        <div class="stat-pair">
+          <div class="stat-item">
+            <div class="stat-val" style="color:var(--green)">24 181</div>
+            <div class="stat-name">Szybka &lt;24h</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-val" style="color:var(--red)">27 671</div>
+            <div class="stat-name">Spóźniona &gt;72h</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">3 segmenty · śr. 178h dla spóźnionych</span>
+          <button class="expand-btn">Powiększ →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="tab-delivery" class="tab-panel">
+        <div class="section-head" style="margin-bottom:28px">
+      <div>
+        <div class="section-title">Analiza dostaw</div>
+        <div class="section-desc">Opóźnienia per miasto, miesiąc, kategoria i wartość spóźnionych zamówień</div>
+      </div>
+      <div class="chip"> Maceio 26% delay</div>
+    </div>
+    <div style="margin-bottom:20px">
+      <div class="card" onclick="openModal('modal-q01')">
+        <div class="card-head">
+          <div>
+            <div class="card-label">Q1 · Topowe miasta</div>
+            <div class="card-title">Spóźnienia per miasto — Top 20 miast Brazylii</div>
+          </div>
+          <div class="card-icon icon-red"></div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Spóźnienia per miasto">
+        </div>
+        <div style="padding: 14px 22px; display:flex; gap:16px; flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--red);font-weight:600;"> Maceio 26.0%</div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--accent1);font-weight:600;"> São Luís 20.2%</div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--accent4);font-weight:600;"> São Gonçalo 21.4%</div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--green);font-weight:600;"> Curitiba 3.9%</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">Top 20 miast · % spóźnień</span>
+          <button class="expand-btn">Powiększ →</button>
+        </div>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-bottom:20px">
+      <div class="card" onclick="openModal('modal-q02')">
+        <div class="card-head">
+          <div>
+            <div class="card-label">Q2 · Trend</div>
+            <div class="card-title">Opóźnienia per miesiąc — śr. dni & liczba</div>
+          </div>
+          <div class="card-icon icon-orange"></div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Opóźnienia per miesiąc">
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">Mar 2018 — 1447 spóźnionych (szczyt)</span>
+          <button class="expand-btn">Powiększ →</button>
+        </div>
+      </div>
+      <div class="card" onclick="openModal('modal-q03')">
+        <div class="card-head">
+          <div>
+            <div class="card-label">Q3 · Kategorie</div>
+            <div class="card-title">Opóźnienia w sezonie świątecznym per kategoria</div>
+          </div>
+          <div class="card-icon icon-amber"></div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Kategorie sezon świąteczny">
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">Perfumery 6.9% · Sports 8.1% · Telefony 8.6%</span>
+          <button class="expand-btn">Powiększ →</button>
+        </div>
+      </div>
+    </div>
+    <div class="card" onclick="openModal('modal-q04')">
+      <div class="card-head">
+        <div>
+          <div class="card-label">Q4 · Wartość strat</div>
+          <div class="card-title">Wartość spóźnionych заказанных в 2018</div>
+        </div>
+        <div class="card-icon icon-red"></div>
+      </div>
+      <div class="card-img-wrap">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Wartość spóźnionych 2018">
+      </div>
+      <div class="stat-pair">
+        <div class="stat-item">
+          <div class="stat-val" style="color:var(--red)">599K</div>
+          <div class="stat-name">Łącznie BRL</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val" style="color:var(--red)">4 079</div>
+          <div class="stat-name">Spóźnionych ord.</div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="card-meta">Mar 2018 — najdroższy miesiąc (187K BRL)</span>
+        <button class="expand-btn">Powiększ →</button>
+      </div>
+    </div>
+    <div style="margin-top:20px">
+      <div class="card" onclick="openModal('modal-q10')">
+        <div class="card-head">
+          <div>
+            <div class="card-label">Q10 · Koszty</div>
+            <div class="card-title">Koszt dostawy per stan — % ceny zamówienia</div>
+          </div>
+          <div class="card-icon icon-teal"></div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Koszt dostawy per stan">
+        </div>
+        <div style="padding: 14px 22px; display:grid; grid-template-columns: repeat(4, 1fr); gap:10px;">
+          <div style="text-align:center">
+            <div style="font-size:16px;font-weight:700;font-family:'DM Mono',monospace;color:var(--red)">28.5%</div>
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em">RR (najdroższy)</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:16px;font-weight:700;font-family:'DM Mono',monospace;color:var(--green)">13.8%</div>
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em">SP (najtańszy)</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:16px;font-weight:700;font-family:'DM Mono',monospace;color:var(--accent1)">19.99</div>
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em">Śr. koszt BRL</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:16px;font-weight:700;font-family:'DM Mono',monospace;color:var(--accent2)">27</div>
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em">Stanów</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">27 stanów · Śr. % freight do ceny</span>
+          <button class="expand-btn">Powiększ →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="tab-payments" class="tab-panel">
+    <div class="section-head" style="margin-bottom:28px">
+      <div>
+        <div class="section-title">Analiza płatności</div>
+        <div class="section-desc">Raty, metody płatności, rozkład geograficzny transakcji</div>
+      </div>
+      <div class="chip"> 49.4% transakcji ratalnych</div>
+    </div>
+    <div class="grid-2" style="margin-bottom:20px">
+      <div class="card" onclick="openModal('modal-q06')">
+        <div class="card-head">
+          <div>
+            <div class="card-label">Q6 · Raty per stan</div>
+            <div class="card-title">Transakcje ratalne i śr. liczba rat per stan</div>
+          </div>
+          <div class="card-icon icon-teal"></div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Raty per stan">
+        </div>
+        <div style="padding:14px 22px;">
+          <div class="prog-bar-wrap">
+            <div class="prog-bar-row">
+              <span class="prog-label">SP</span>
+              <div class="prog-bar"><div class="prog-fill" style="width:100%"></div></div>
+              <span class="prog-val">19 970</span>
+            </div>
+            <div class="prog-bar-row">
+              <span class="prog-label">RJ</span>
+              <div class="prog-bar"><div class="prog-fill" style="width:35%"></div></div>
+              <span class="prog-val">7 055</span>
+            </div>
+            <div class="prog-bar-row">
+              <span class="prog-label">MG</span>
+              <div class="prog-bar"><div class="prog-fill" style="width:31%"></div></div>
+              <span class="prog-val">6 315</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">27 stanów · Śr. 2.9 raty · SP dominuje</span>
+          <button class="expand-btn">Powiększ →</button>
+        </div>
+      </div>
+      <div class="card" onclick="openModal('modal-q07')">
+        <div class="card-head">
+          <div>
+            <div class="card-label">Q7 · Porównanie</div>
+            <div class="card-title">Koszyk: płatność ratalna vs jednorazowa</div>
+          </div>
+          <div class="card-icon icon-orange"></div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Raty vs jednorazowe">
+        </div>
+        <div style="padding:14px 22px; display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+          <div style="background:rgba(255,107,53,0.07);border-radius:12px;padding:14px;text-align:center">
+            <div style="font-size:22px;font-weight:700;font-family:'DM Mono',monospace;color:var(--accent1)">150.33</div>
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px">Ratalna (BRL)</div>
+            <div style="font-size:10px;color:var(--text-secondary);margin-top:2px">50 840 zamówień</div>
+          </div>
+          <div style="background:rgba(0,180,166,0.07);border-radius:12px;padding:14px;text-align:center">
+            <div style="font-size:22px;font-weight:700;font-family:'DM Mono',monospace;color:var(--accent2)">91.14</div>
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px">Jednorazowa (BRL)</div>
+            <div style="font-size:10px;color:var(--text-secondary);margin-top:2px">48 611 zamówień</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">Klienci ratalni kupują za +65% więcej</span>
+          <button class="expand-btn">Powiększ →</button>
+        </div>
+      </div>
+    </div>
+    <div class="card" onclick="openModal('modal-q08')">
+      <div class="card-head">
+        <div>
+          <div class="card-label">Q8 · Metody płatności</div>
+          <div class="card-title">Płatności per stan в 2017</div>
+        </div>
+        <div class="card-icon icon-purple"></div>
+      </div>
+      <div class="card-img-wrap">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Płatności 2017 per stan">
+      </div>
+      <div class="card-footer">
+        <span class="card-meta">27 stanów · SP: 13 584 kart kredytowych в 2017</span>
+        <button class="expand-btn">Powiększ →</button>
+      </div>
+    </div>
+  </div>
+  <div id="tab-reviews" class="tab-panel">
+    <div class="section-head" style="margin-bottom:28px">
+      <div>
+        <div class="section-title">Opinie klientów</div>
+        <div class="section-desc">Korelacja dostaw z oceną, negatywne słowa kluczowe i trend 2016–2018</div>
+      </div>
+      <div class="chip">⭐ 56 910 ocen 5</div>
+    </div>
+    <div class="grid-2" style="margin-bottom:20px">
+      <div class="card" onclick="openModal('modal-q05')">
+        <div class="card-head">
+          <div>
+            <div class="card-label">Q5 · Korelacja</div>
+            <div class="card-title">Opóźnienie vs ocena klienta per kwartał</div>
+          </div>
+          <div class="card-icon icon-red"></div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Opóźnienie vs ocena">
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">Spóźniona dostawa = 2× gorsza ocena</span>
+          <button class="expand-btn">Powiększ →</button>
+        </div>
+      </div>
+      <div class="card" onclick="openModal('modal-q12')">
+        <div class="card-head">
+          <div>
+            <div class="card-label">Q12 · Słowa kluczowe</div>
+            <div class="card-title">Najczęstsze słowa w negatywnych opiniach</div>
+          </div>
+          <div class="card-icon icon-red"></div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Słowa negatywne">
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">Top 20 słów</span>
+          <button class="expand-btn">Powiększ →</button>
+        </div>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-bottom:20px">
+      <div class="card" onclick="openModal('modal-q11')">
+        <div class="card-head">
+          <div>
+            <div class="card-label">Q11 · Kategorie</div>
+            <div class="card-title">Oceny 5 per kategoria i kwartał</div>
+          </div>
+          <div class="card-icon icon-amber"></div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Oceny 5 per kategoria">
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">Health & Beauty i Sports — liderzy 5</span>
+          <button class="expand-btn">Powiększ →</button>
+        </div>
+      </div>
+      <div class="card" onclick="openModal('modal-q15')">
+        <div class="card-head">
+          <div>
+            <div class="card-label">Q15 · Trend</div>
+            <div class="card-title">Negatywne opinie per stan i rok (2016–2018)</div>
+          </div>
+          <div class="card-icon icon-red"></div>
+        </div>
+        <div class="card-img-wrap">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Negatywne opinie per stan">
+        </div>
+        <div class="card-footer">
+          <span class="card-meta">SP 2018: 3 039 negatywnych — wzrost z 35 w 2016</span>
+          <button class="expand-btn">Powiększ →</button>
+        </div>
+      </div>
+    </div>
+    <div class="card" onclick="openModal('modal-q13')">
+      <div class="card-head">
+        <div>
+          <div class="card-label">Q13 · 2016</div>
+          <div class="card-title">Negatywne opinie в 2016 — start platformy</div>
+        </div>
+        <div class="card-icon icon-amber"></div>
+      </div>
+      <div class="card-img-wrap">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Negatywne 2016">
+      </div>
+      <div class="card-footer">
+        <span class="card-meta">Okt–Gru 2016 · 96 negatywnych opinii łącznie</span>
+        <button class="expand-btn">Powiększ →</button>
+      </div>
+    </div>
+  </div>
+  <div id="tab-schema" class="tab-panel">
+    <div class="section-head" style="margin-bottom:28px">
+      <div>
+        <div class="section-title">Schemat bazy данных</div>
+        <div class="section-desc">Model gwiazdkowy (Star Schema) — architektura danych Olist DW</div>
+      </div>
+      <div class="chip"> Star Schema · 7 tabel</div>
+    </div>
+    <div class="schema-card">
+      <div style="padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:14px;font-weight:600;color:var(--text-primary)">Schemat gwiazdkowy — Olist Data Warehouse</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Tabela faktów + tabele wymiarów</div>
+        </div>
+        <div class="chip"> Pełny schemat</div>
+      </div>
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" alt="Schemat gwiazdy" style="width:100%;display:block;cursor:zoom-in" onclick="openModal('modal-schema')">
+    </div>
+  </div>
+</main>
+<div class="modal-backdrop" id="modal-q09" onclick="closeModal(event, 'modal-q09')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title"> Przychody per miesiąc (BRL vs PLN)</div>
+      <button class="modal-close" onclick="closeModal(null,'modal-q09')"></button>
+    </div>
+    <div class="modal-body">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" class="modal-img" alt="Przychody per miesiąc">
+    </div>
+  </div>
+</div>
+<script>
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(event, id) {
+  if (!event || event.target.classList.contains('modal-backdrop') || event.target.classList.contains('modal-close')) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+</script>
+</body>
+</html>
