@@ -15,4 +15,5 @@ Site diary:
 
 05.04.2026 My mom told me my photo is really bad, so changed.
 
+28.09 Added work expirience
 I want to put it on GitHub and make it live. It is human made.
