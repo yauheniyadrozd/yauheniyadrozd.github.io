@@ -15,8 +15,8 @@ const I18N = {
 
             // Hero section
             "hero.title": "Yauheniya Drozd",
-            "hero.subtitle": "Data Science & Machine Learning Student",
-            "hero.description": "Transforming data into actionable insights through advanced analytics and machine learning. Passionate about solving complex problems with data-driven solutions.",
+            "hero.subtitle": "BigData Engineer & NAWA Scholar",
+            "hero.description": "BigData Engineer at Innowise, NAWA Scholar, and researcher at Wrocław University of Science and Technology. I design and scale data pipelines and automation solutions that turn complex data into real business value.",
 
             // Buttons
             "buttons.viewProjects": "<i class=\"fas fa-code\"></i> View Projects",
@@ -24,14 +24,39 @@ const I18N = {
 
             // About section
             "about.title": "About Me",
-            "about.p1": "I am a passionate Data Science and Systems Engineering student with expertise in machine learning, data analysis, and optimization algorithms. I specialize in turning complex data into meaningful solutions that drive decision-making and create value.",
-            "about.p2": "My technical skills include Python programming, statistical analysis, and developing end-to-end machine learning pipelines. I enjoy solving challenging problems and continuously learning new technologies in the data science field.",
+            "about.p1": "I'm a BigData Engineer at Innowise and a NAWA Scholar, currently studying and researching at Wrocław University of Science and Technology. I build and scale enterprise-grade data pipelines, orchestrate complex workflows, and design cloud data warehouses.",
+            "about.p2": "Beyond work, I'm an active member of the Estymator student community, where I design and deploy end-to-end data solutions. I focus on systems that create real business value — not technology for its own sake.",
+
+            // Experience section
+            "experience.title": "Work Experience",
+            "experience.intro": "Where I currently work, what I build, and the communities I'm part of.",
+            "experience.innowise.role": "BigData Engineer",
+            "experience.innowise.company": "Innowise",
+            "experience.innowise.period": "April 2026 — Present",
+            "experience.innowise.location": "Warsaw, Poland · Remote",
+            "experience.innowise.p1": "Data Engineering & Orchestration: building and scaling enterprise-grade data pipelines, using Apache Airflow for complex workflow orchestration and Docker for containerized deployment.",
+            "experience.innowise.p2": "Data Warehousing: designing and optimizing cloud-based data storage and processing with Snowflake and Databricks.",
+            "experience.volvo.role": "Data & Solutions Architect",
+            "experience.volvo.company": "Volvo Group",
+            "experience.volvo.project": "Power Platform Automation Project",
+            "experience.volvo.period": "March 2026 — June 2026",
+            "experience.volvo.location": "Wrocław, Poland · Remote",
+            "experience.volvo.p1": "Solution Architecture: led the design of an automated data pipeline on Power Platform, establishing strict ALM, security, and error-handling standards with a student team.",
+            "experience.volvo.p2": "Data Engineering: co-developed a 9-stage ETL flow to process ~86,000 records, featuring data deduplication, HTML cleaning, and structured JSON extraction.",
+            "experience.volvo.p3": "Systems Analysis: evaluated GPT-5 prompts vs. autonomous Copilot agents, optimizing the system for determinism and cost-efficiency (~30 credits per run).",
+            "experience.volvo.tag_teamwork": "Teamwork",
+            "experience.volvo.tag_certificate": "Certificate & Final Report",
+            "experience.community.title": "Community & Projects",
+            "experience.community.company": "THAUMATEC TECH GROUP · Koło Naukowe Estymator",
+            "experience.community.desc": "Presented custom MCP (Model Context Protocol) implementations at THAUMATEC TECH GROUP together with Koło Naukowe Estymator, sharing practical insights on building end-to-end, value-driven automation workflows.",
+            "experience.community.p1": "Delivered a knowledge-sharing session on deploying projects from scratch for real business value — with support from Mateusz Konicki and the student team (Hubert Sozański, Maciej Antczak).",
 
             // Skills section
             "skills.title": "Technical Skills",
             "skills.categories.data_science": "Data Science",
             "skills.categories.data_viz": "Data Visualization",
             "skills.categories.tools": "Tools & Technologies",
+            "skills.categories.data_engineering": "Data Engineering & Cloud",
             "skills.items.python": "Python",
             "skills.items.pandas": "Pandas",
             "skills.items.numpy": "NumPy",
@@ -42,6 +67,11 @@ const I18N = {
             "skills.items.git": "Git",
             "skills.items.sql": "SQL",
             "skills.items.jupyter": "Jupyter",
+            "skills.items.airflow": "Apache Airflow",
+            "skills.items.docker": "Docker",
+            "skills.items.snowflake": "Snowflake",
+            "skills.items.databricks": "Databricks",
+            "skills.items.power_automate": "Power Automate",
 
             // Live projects
             "live.title": "Live GitHub Lab",
@@ -125,8 +155,8 @@ const I18N = {
 
             // Hero section
             "hero.title": "Yauheniya Drozd",
-            "hero.subtitle": "Studentka Data Science i Machine Learning",
-            "hero.description": "Przekształcam dane w praktyczne wnioski poprzez zaawansowaną analitykę i uczenie maszynowe. Pasjonuję się rozwiązywaniem złożonych problemów za pomocą rozwiązań opartych na danych.",
+            "hero.subtitle": "BigData Engineer i stypendystka NAWA",
+            "hero.description": "BigData Engineer w Innowise, stypendystka NAWA i badaczka na Politechnice Wrocławskiej. Projektuję i skaluję potoki danych oraz rozwiązania automatyzacyjne, które zamieniają złożone dane w realną wartość biznesową.",
 
             // Buttons
             "buttons.viewProjects": "<i class=\"fas fa-code\"></i> Zobacz projekty",
@@ -134,14 +164,39 @@ const I18N = {
 
             // About section
             "about.title": "O mnie",
-            "about.p1": "Jestem pasjonatką studentką Data Science i inżynierii systemów z doświadczeniem w uczeniu maszynowym, analizie danych i algorytmach optymalizacji. Specjalizuję się w przekształcaniu złożonych danych w znaczące rozwiązania, które napędzają podejmowanie decyzji i tworzą wartość.",
-            "about.p2": "Moje umiejętności techniczne obejmują programowanie w Pythonie, analizę statystyczną i tworzenie kompleksowych potoków uczenia maszynowego. Lubię rozwiązywać wyzwania i ciągle uczyć się nowych technologii w dziedzinie data science.",
+            "about.p1": "Jestem BigData Engineer w Innowise i stypendystką NAWA, obecnie studiuję i prowadzę badania na Politechnice Wrocławskiej. Buduję i skaluję korporacyjne potoki danych, orkiestruję złożone przepływy pracy i projektuję chmurowe hurtownie danych.",
+            "about.p2": "Poza pracą aktywnie działam w studenckim kole naukowym Estymator, gdzie projektuję i wdrażam kompleksowe rozwiązania oparte na danych. Skupiam się na systemach tworzących realną wartość biznesową — a nie na technologii „dla samej technologii”.",
+
+            // Experience section
+            "experience.title": "Doświadczenie zawodowe",
+            "experience.intro": "Gdzie obecnie pracuję, co buduję i w jakich społecznościach działam.",
+            "experience.innowise.role": "BigData Engineer",
+            "experience.innowise.company": "Innowise",
+            "experience.innowise.period": "Kwiecień 2026 — obecnie",
+            "experience.innowise.location": "Warszawa, Polska · zdalnie",
+            "experience.innowise.p1": "Data Engineering i orkiestracja: buduję i skaluję korporacyjne potoki danych, wykorzystując Apache Airflow do orkiestracji złożonych przepływów pracy oraz Docker do konteneryzowanego wdrożenia.",
+            "experience.innowise.p2": "Hurtownie danych: projektuję i optymalizuję chmurowe przechowywanie i przetwarzanie danych z użyciem Snowflake i Databricks.",
+            "experience.volvo.role": "Data & Solutions Architect",
+            "experience.volvo.company": "Volvo Group",
+            "experience.volvo.project": "Projekt automatyzacji Power Platform",
+            "experience.volvo.period": "Marzec 2026 — czerwiec 2026",
+            "experience.volvo.location": "Wrocław, Polska · zdalnie",
+            "experience.volvo.p1": "Architektura rozwiązań: prowadziłam projektowanie zautomatyzowanego potoku danych w Power Platform, ustanawiając rygorystyczne standardy ALM, bezpieczeństwa i obsługi błędów wraz ze studenckim zespołem.",
+            "experience.volvo.p2": "Data Engineering: współtworzyłam 9-etapowy proces ETL do przetwarzania ~86 000 rekordów, obejmujący deduplikację danych, czyszczenie HTML i ekstrakcję strukturalnego JSON.",
+            "experience.volvo.p3": "Analiza systemowa: porównywałam prompty GPT-5 z autonomicznymi agentami Copilot, optymalizując system pod kątem determinizmu i efektywności kosztowej (~30 kredytów na uruchomienie).",
+            "experience.volvo.tag_teamwork": "Praca zespołowa",
+            "experience.volvo.tag_certificate": "Certyfikat i raport końcowy",
+            "experience.community.title": "Społeczność i projekty",
+            "experience.community.company": "THAUMATEC TECH GROUP · Koło Naukowe Estymator",
+            "experience.community.desc": "Przedstawiłam autorskie implementacje MCP (Model Context Protocol) w THAUMATEC TECH GROUP wraz z kołem naukowym Estymator, dzieląc się praktyczną wiedzą o budowaniu kompleksowych, wartościowych przepływów automatyzacji.",
+            "experience.community.p1": "Przeprowadziłam sesję wymiany wiedzy o wdrażaniu projektów „od zera” dla realnej wartości biznesowej — przy wsparciu Mateusza Konickiego i zespołu studenckiego (Hubert Sozański, Maciej Antczak).",
 
             // Skills section
             "skills.title": "Umiejętności techniczne",
             "skills.categories.data_science": "Data Science",
             "skills.categories.data_viz": "Wizualizacja danych",
             "skills.categories.tools": "Narzędzia i technologie",
+            "skills.categories.data_engineering": "Data Engineering i chmura",
             "skills.items.python": "Python",
             "skills.items.pandas": "Pandas",
             "skills.items.numpy": "NumPy",
@@ -152,6 +207,11 @@ const I18N = {
             "skills.items.git": "Git",
             "skills.items.sql": "SQL",
             "skills.items.jupyter": "Jupyter",
+            "skills.items.airflow": "Apache Airflow",
+            "skills.items.docker": "Docker",
+            "skills.items.snowflake": "Snowflake",
+            "skills.items.databricks": "Databricks",
+            "skills.items.power_automate": "Power Automate",
 
             // Live projects
             "live.title": "Aktywne Laboratorium GitHub",
@@ -236,8 +296,8 @@ const I18N = {
 
             // Hero section
             "hero.title": "Yauheniya Drozd",
-            "hero.subtitle": "Студентка Data Science и машинного обучения",
-            "hero.description": "Преобразую данные в полезные выводы с помощью аналитики и машинного обучения. Люблю решать сложные задачи методами, основанными на данных.",
+            "hero.subtitle": "BigData Engineer и стипендиатка NAWA",
+            "hero.description": "BigData Engineer в Innowise, стипендиатка NAWA и исследовательница во Вроцлавском политехническом университете. Проектирую и масштабирую пайплайны данных и автоматизированные решения, которые превращают сложные данные в реальную бизнес-ценность.",
 
             // Buttons
             "buttons.viewProjects": "<i class=\"fas fa-code\"></i> Посмотреть проекты",
@@ -245,14 +305,39 @@ const I18N = {
 
             // About section
             "about.title": "Обо мне",
-            "about.p1": "Я учусь на специальности System Engineering с специализацией в Data Engineering, практикую задачи машинного обучения, анализа данных и оптимизации. Специализируюсь на превращении сложных наборов данных в понятные истории, которые помогают принимать обоснованные решения и приносят ценность.",
-            "about.p2": "Мои технические навыки включают программирование на Python, статистический анализ и ниже подробнее... ",
+            "about.p1": "Я BigData Engineer в Innowise и стипендиатка NAWA, сейчас учусь и занимаюсь исследованиями во Вроцлавском политехническом университете. Проектирую и масштабирую корпоративные пайплайны данных, оркестрирую сложные процессы и строю облачные хранилища данных.",
+            "about.p2": "Помимо работы я активный участник студенческого сообщества Estymator, где разрабатываю и внедряю комплексные решения на основе данных. Мой фокус — системы, которые приносят реальную бизнес-ценность, а не технологии «для галочки».",
+
+            // Experience section
+            "experience.title": "Опыт работы",
+            "experience.intro": "Где я сейчас работаю, что создаю и в каких сообществах участвую.",
+            "experience.innowise.role": "BigData Engineer",
+            "experience.innowise.company": "Innowise",
+            "experience.innowise.period": "Апрель 2026 — настоящее время",
+            "experience.innowise.location": "Варшава, Польша · удалённо",
+            "experience.innowise.p1": "Data Engineering и оркестрация: проектирую и масштабирую корпоративные пайплайны данных, используя Apache Airflow для оркестрации сложных процессов и Docker для контейнерного развёртывания.",
+            "experience.innowise.p2": "Хранилища данных: проектирую и оптимизирую облачное хранение и обработку данных с помощью Snowflake и Databricks.",
+            "experience.volvo.role": "Data & Solutions Architect",
+            "experience.volvo.company": "Volvo Group",
+            "experience.volvo.project": "Проект автоматизации Power Platform",
+            "experience.volvo.period": "Март 2026 — июнь 2026",
+            "experience.volvo.location": "Вроцлав, Польша · удалённо",
+            "experience.volvo.p1": "Архитектура решений: руководила проектированием автоматизированного пайплайна данных на Power Platform, установив строгие стандарты ALM, безопасности и обработки ошибок вместе со студенческой командой.",
+            "experience.volvo.p2": "Data Engineering: совместно разработала 9-этапный ETL-процесс для обработки ~86 000 записей, включающий дедупликацию данных, очистку HTML и извлечение структурированного JSON.",
+            "experience.volvo.p3": "Системный анализ: сравнивала промпты GPT-5 с автономными агентами Copilot, оптимизируя систему для детерминизма и экономической эффективности (~30 кредитов за запуск).",
+            "experience.volvo.tag_teamwork": "Командная работа",
+            "experience.volvo.tag_certificate": "Сертификат и итоговый отчёт",
+            "experience.community.title": "Сообщество и проекты",
+            "experience.community.company": "THAUMATEC TECH GROUP · Koło Naukowe Estymator",
+            "experience.community.desc": "Представила кастомные реализации MCP (Model Context Protocol) в THAUMATEC TECH GROUP совместно с научным кружком Estymator, поделившись практическим опытом построения комплексных автоматизированных решений, ориентированных на ценность.",
+            "experience.community.p1": "Провела сессию по обмену знаниями о развёртывании проектов «с нуля» для реальной бизнес-ценности — при поддержке Mateusz Konicki и студенческой команды (Hubert Sozański, Maciej Antczak).",
 
             // Skills section
             "skills.title": "Технические навыки",
             "skills.categories.data_science": "Data Science",
             "skills.categories.data_viz": "Визуализация данных",
             "skills.categories.tools": "Инструменты и технологии",
+            "skills.categories.data_engineering": "Data Engineering и облако",
             "skills.items.python": "Python",
             "skills.items.pandas": "Pandas",
             "skills.items.numpy": "NumPy",
@@ -263,6 +348,11 @@ const I18N = {
             "skills.items.git": "Git",
             "skills.items.sql": "SQL",
             "skills.items.jupyter": "Jupyter",
+            "skills.items.airflow": "Apache Airflow",
+            "skills.items.docker": "Docker",
+            "skills.items.snowflake": "Snowflake",
+            "skills.items.databricks": "Databricks",
+            "skills.items.power_automate": "Power Automate",
 
             // Live projects
             "live.title": "Лаборатория GitHub",
